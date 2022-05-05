@@ -6,16 +6,6 @@
 #include <stdbool.h>
 #include <fcntl.h>
 
-void PrintRemainLine(char *buf, int size, int totalSize, int flag)
-{
-	if (size > 0)
-		PrintRemainData(buf, totalSize, flag);
-	if (totalSize > 0)
-	{
-		PrintIndexInHex(totalSize + BUFFER_SIZE, flag, 1);
-		write(1, "\n", 1);
-	}
-}
 int DumpHexStdin(int flag)
 {
 	char buffer[BUFFER_SIZE];
@@ -90,6 +80,9 @@ int DumpHexFiles(int argc, char **argv, int flag)
 	totalSize += size;
 	if (totalSize == 0)
 		return (EXIT_FAILURE);
-	PrintRemainLine(readBuf, size, totalSize, flag);
+	if (size > 0)
+		PrintRemainData(readBuf, totalSize, flag);
+	PrintIndexInHex(totalSize + BUFFER_SIZE, flag, 1);
+	write(1, "\n", 1);
 	return (EXIT_SUCCESS);
 }
