@@ -10,10 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/dump_hex.h"
 #include "../includes/hex_dump_tools.h"
-#include "../includes/dump_hex_tools.h"
-#include "../includes/dump_tools.h"
 #include "../includes/file_cntl.h"
 #include "../includes/str_cntl.h"
 #include <unistd.h>

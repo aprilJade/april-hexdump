@@ -12,6 +12,7 @@
 
 #ifndef HEX_DUMP_TOOLS_H
 #define HEX_DUMP_TOOLS_H
+# define BUFFER_SIZE 16
 
 void print_number_in_hex(int number, char *hex);
 void print_index_in_hex(int size, int flag, int last);
