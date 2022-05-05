@@ -1,18 +1,6 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   dump_hex.c                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: seonggyk <marvin@42.fr>                    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/30 13:03:31 by seonggyk          #+#    #+#             */
-/*   Updated: 2022/05/01 12:29:20 by seonggyk         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "../includes/hex_dump_tools.h"
 #include "../includes/file_cntl.h"
-#include "../includes/str_cntl.h"
+#include "../includes/error_msg.h"
 #include <unistd.h>
 #include <stdlib.h>
 #include <string.h>

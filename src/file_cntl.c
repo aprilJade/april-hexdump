@@ -1,20 +1,8 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   file_cntl.c                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: seonggyk <marvin@42.fr>                    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/27 20:28:41 by seonggyk          #+#    #+#             */
-/*   Updated: 2022/04/30 22:48:43 by seonggyk         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include <unistd.h>
 #include <fcntl.h>
 #include <stdlib.h>
 #include "../includes/file_cntl.h"
-#include "../includes/str_cntl.h"
+#include "../includes/error_msg.h"
 
 int file_open(char *file_path)
 {
