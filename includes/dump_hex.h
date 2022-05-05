@@ -11,10 +11,10 @@
 /* ************************************************************************** */
 
 #ifndef DUMP_HEX_H
-# define DUMP_HEX_H
-# define BUFFER_SIZE 16
+#define DUMP_HEX_H
+#define BUFFER_SIZE 16
 
-int	dump_hex_dynamic(int flag);
-int	dump_hex(int argc, char **argv, int flag, char buf[BUFFER_SIZE]);
+int DumpHexStdin(int flag);
+int DumpHexFiles(int argc, char **argv, int flag);
 
 #endif

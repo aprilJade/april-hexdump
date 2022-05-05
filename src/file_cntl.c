@@ -16,9 +16,9 @@
 #include "../includes/file_cntl.h"
 #include "../includes/str_cntl.h"
 
-int	file_open(char *file_path)
+int file_open(char *file_path)
 {
-	int	fd;
+	int fd;
 
 	fd = open(file_path, O_RDONLY);
 	if (fd < 0)
@@ -26,12 +26,12 @@ int	file_open(char *file_path)
 	return (fd);
 }
 
-int	get_file_size(char *file_path)
+int get_file_size(char *file_path)
 {
-	int		size;
-	int		ret;
-	char	buf[1 << 28];
-	int		fd;
+	int size;
+	int ret;
+	char buf[1 << 28];
+	int fd;
 
 	fd = file_open(file_path);
 	if (fd < 0)
@@ -48,13 +48,13 @@ int	get_file_size(char *file_path)
 	}
 	close(fd);
 	return (size);
-}	
+}
 
-int	dup_file(char *file_path, int size, char **data)
+int dup_file(char *file_path, int size, char **data)
 {
-	char	*ret;
-	int		fd;
-	int		var;
+	char *ret;
+	int fd;
+	int var;
 
 	ret = (char *)malloc(sizeof(char) * size);
 	if (ret == 0)
@@ -72,14 +72,14 @@ int	dup_file(char *file_path, int size, char **data)
 	return (1);
 }
 
-int	check_file(char *file, int *i)
+int check_file(char *file, int *i)
 {
-	int	fd;
+	int fd;
 
 	fd = file_open(file);
 	if (fd < 0)
 	{
-		ft_path_error(file);
+		printError(file);
 		*i += 1;
 		return (EXIT_FAILURE);
 	}

@@ -15,32 +15,33 @@
 #include "../includes/str_cntl.h"
 #include <unistd.h>
 #include <stdlib.h>
+#include <string.h>
+#include <stdbool.h>
 
-void	last_print(char *buf, int size, int total_size, int flag)
+void PrintRemainLine(char *buf, int size, int totalSize, int flag)
 {
 	if (size > 0)
-		print_remain_data(buf, total_size, flag);
-	if (total_size > 0)
+		print_remain_data(buf, totalSize, flag);
+	if (totalSize > 0)
 	{
-		print_index_in_hex(total_size + BUFFER_SIZE, flag, 1);
+		print_index_in_hex(totalSize + BUFFER_SIZE, flag, 1);
 		write(1, "\n", 1);
 	}
 }
-
-int	dump_hex_dynamic(int flag)
+int DumpHexStdin(int flag)
 {
-	char	buffer[BUFFER_SIZE];
-	char	temp;
-	int		size;
-	int		total_size;
-	int		ret;
+	char buffer[BUFFER_SIZE];
+	char temp;
+	int size;
+	int totalSize;
+	int ret;
 
-	total_size = 0;
+	totalSize = 0;
 	while (1)
 	{
 		size = 0;
 		ret = 0;
-		init_buffer(buffer);
+		memset(buffer, 0, BUFFER_SIZE);
 		while (size != BUFFER_SIZE)
 		{
 			ret = read(0, &temp, 1);
@@ -49,90 +50,58 @@ int	dump_hex_dynamic(int flag)
 			charcat(buffer, temp);
 			size += ret;
 		}
-		total_size += size;
-		print_one_line(buffer, total_size, size, flag);
+		totalSize += size;
+		printLine(buffer, totalSize, size, flag);
 	}
 	return (EXIT_FAILURE);
 }
 
-int	print_file_end_on(char buf[16], char *file, int *total_size, int size)
+int DumpHexFiles(int argc, char **argv, int flag)
 {
-	int		ret;
-	int		fd;
-	int		is_overlap;
-	char	tmp_buf[16];
+	int size = 0;
+	int totalSize = 0;
+	bool isOverlapped = false;
+	int fd;
+	int ret;
+	char tmpBuf[BUFFER_SIZE];
+	char readBuf[BUFFER_SIZE];
 
-	fd = file_open(file);
-	is_overlap = 0;
-	while (1)
+	for (int i = flag + 1; i < argc; i++)
 	{
-		ret = check_read_error(buf, file, size, fd);
+		if ((fd = file_open(argv[i])) < 0)
+		{
+			printError(argv[i]);
+			continue;
+		}
+
+		while ((ret = read(fd, readBuf + size, BUFFER_SIZE - size)) > 0)
+		{
+			size += ret;
+			if (size < BUFFER_SIZE)
+				break;
+			totalSize += size;
+			if ((memcmp(tmpBuf, readBuf, BUFFER_SIZE) == 0))
+			{
+				if (!isOverlapped)
+				{
+					isOverlapped = true;
+					write(1, "*\n", 2);
+				}
+				size = 0;
+				continue;
+			}
+			memcpy(tmpBuf, readBuf, BUFFER_SIZE);
+			printLine(readBuf, totalSize, size, flag);
+			size = 0;
+			isOverlapped = false;
+		}
 		if (ret < 0)
-			break ;
-		size += ret;
-		if (check_size_limit(fd, size) < 0)
-			break ;
-		*total_size += size;
-		if (check_overlap(buf, tmp_buf, &size, &is_overlap) > 0)
-			continue ;
-		memory_copy(tmp_buf, buf);
-		print_one_line(buf, *total_size, size, 1);
-		size = 0;
-		is_overlap = 0;
+			printError(argv[i]);
+		close(fd);
 	}
-	return (size);
-}
-
-int	print_file_end_off(char buf[16], char *file, int *total_size, int size)
-{
-	int		ret;
-	int		fd;
-	int		is_overlap;
-	char	tmp_buf[16];
-
-	is_overlap = 0;
-	fd = file_open(file);
-	while (1)
-	{
-		ret = check_read_error(buf, file, size, fd);
-		if (ret < 0)
-			break ;
-		size += ret;
-		if (check_size_limit(fd, size) < 0)
-			break ;
-		*total_size += size;
-		if (check_overlap(buf, tmp_buf, &size, &is_overlap) > 0)
-			continue ;
-		memory_copy(tmp_buf, buf);
-		print_one_line(buf, *total_size, size, 0);
-		size = 0;
-		is_overlap = 0;
-	}
-	return (size);
-}
-
-int	dump_hex(int argc, char **argv, int flag, char buf[BUFFER_SIZE])
-{
-	int		i;
-	int		size;
-	int		total_size;
-
-	i = 1 + flag;
-	total_size = 0;
-	size = 0;
-	while (i < argc)
-	{
-		if (check_file(argv[i], &i) == EXIT_FAILURE)
-			continue ;
-		if (flag)
-			size = print_file_end_on(buf, argv[i], &total_size, size);
-		else
-			size = print_file_end_off(buf, argv[i], &total_size, size);
-		i++;
-	}
-	total_size += size;
-	last_print(buf, size, total_size, flag);
-	if (total_size == 0 && argv[--i][0] != 0)
-		ft_print_fd_error(argv[i]);
+	totalSize += size;
+	if (totalSize == 0)
+		return (EXIT_FAILURE);
+	PrintRemainLine(readBuf, size, totalSize, flag);
 	return (EXIT_SUCCESS);
 }

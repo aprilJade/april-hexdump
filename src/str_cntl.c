@@ -16,13 +16,13 @@
 #include <libgen.h>
 #include "../includes/str_cntl.h"
 
-void	ft_putstr(char *str)
+void ft_putstr(char *str)
 {
 	while (*str)
 		write(1, str++, 1);
 }
 
-int	ft_path_error(char *file_path)
+int printError(char *file_path)
 {
 	ft_putstr("ft_hexdump: ");
 	ft_putstr(basename(file_path));
@@ -32,16 +32,16 @@ int	ft_path_error(char *file_path)
 	return (8);
 }
 
-void	ft_print_fd_error(char *file_path)
+void printFdError(char *file_path)
 {
 	ft_putstr("ft_hexdump: ");
 	ft_putstr(file_path);
 	ft_putstr(": Bad file descriptor\n");
 }
 
-int	ft_strncmp(char *s1, char *s2)
+int ft_strncmp(char *s1, char *s2)
 {
-	int	ret;
+	int ret;
 
 	ret = 0;
 	while (ret == 0)
