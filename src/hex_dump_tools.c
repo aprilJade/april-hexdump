@@ -9,34 +9,34 @@ void charcat(char *dest, char c)
 	*dest = c;
 }
 
-void print_remain_data(char *data, int size, int flag)
+void PrintRemainData(char *data, int size, int flag)
 {
-	print_index_in_hex(size + (16 - size % 16), flag, 0);
-	print_data_in_hex((unsigned char *)data, size % 16, flag);
+	PrintIndexInHex(size + (16 - size % 16), flag, 0);
+	PrintDataInHex((unsigned char *)data, size % 16, flag);
 	if (flag)
-		print_data_in_ascii((unsigned char *)data, size % 16);
+		PrintDataInAscii((unsigned char *)data, size % 16);
 }
 
 void printLine(char *data, int total_size, int size, int flag)
 {
-	print_index_in_hex(total_size, flag, 0);
-	print_data_in_hex((unsigned char *)data, size, flag);
+	PrintIndexInHex(total_size, flag, 0);
+	PrintDataInHex((unsigned char *)data, size, flag);
 	if (flag)
-		print_data_in_ascii((unsigned char *)data, size);
+		PrintDataInAscii((unsigned char *)data, size);
 }
 
-void print_number_in_hex(int number, char *hex)
+void PrintIntinHex(int number, char *hex)
 {
 	if (number > 15)
 	{
-		print_number_in_hex(number / 16, hex);
+		PrintIntinHex(number / 16, hex);
 		write(1, &hex[number % 16], 1);
 	}
 	else
 		write(1, &hex[number % 16], 1);
 }
 
-void print_index_in_hex(int size, int flag, int last)
+void PrintIndexInHex(int size, int flag, int last)
 {
 	int i;
 	int tmp;
@@ -53,12 +53,12 @@ void print_index_in_hex(int size, int flag, int last)
 	}
 	write(1, "00000000", 7 - i + flag);
 	if (size > 0)
-		print_number_in_hex(size, hex);
+		PrintIntinHex(size, hex);
 	if (last == 0)
 		write(1, "  ", 1 + flag);
 }
 
-void print_data_in_hex(unsigned char *data, int size, int flag)
+void PrintDataInHex(unsigned char *data, int size, int flag)
 {
 	int i;
 	char *hex;
@@ -76,7 +76,7 @@ void print_data_in_hex(unsigned char *data, int size, int flag)
 		data++;
 	}
 	if (--i < 16)
-		print_spaces(i);
+		PrintSpaces(i);
 	if (flag)
 	{
 		if (i < 8)
@@ -87,7 +87,7 @@ void print_data_in_hex(unsigned char *data, int size, int flag)
 		write(1, "\n", 1);
 }
 
-void print_data_in_ascii(unsigned char *data, int size)
+void PrintDataInAscii(unsigned char *data, int size)
 {
 	write(1, "|", 1);
 	while (size--)
@@ -101,7 +101,7 @@ void print_data_in_ascii(unsigned char *data, int size)
 	write(1, "|\n", 2);
 }
 
-void print_spaces(int len)
+void PrintSpaces(int len)
 {
 	int i;
 

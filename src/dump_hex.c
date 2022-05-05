@@ -1,18 +1,18 @@
 #include "../includes/hex_dump_tools.h"
-#include "../includes/file_cntl.h"
 #include "../includes/error_msg.h"
 #include <unistd.h>
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
+#include <fcntl.h>
 
 void PrintRemainLine(char *buf, int size, int totalSize, int flag)
 {
 	if (size > 0)
-		print_remain_data(buf, totalSize, flag);
+		PrintRemainData(buf, totalSize, flag);
 	if (totalSize > 0)
 	{
-		print_index_in_hex(totalSize + BUFFER_SIZE, flag, 1);
+		PrintIndexInHex(totalSize + BUFFER_SIZE, flag, 1);
 		write(1, "\n", 1);
 	}
 }
@@ -46,17 +46,17 @@ int DumpHexStdin(int flag)
 
 int DumpHexFiles(int argc, char **argv, int flag)
 {
+	int fd;
+	int ret;
 	int size = 0;
 	int totalSize = 0;
 	bool isOverlapped = false;
-	int fd;
-	int ret;
 	char tmpBuf[BUFFER_SIZE];
 	char readBuf[BUFFER_SIZE];
 
 	for (int i = flag + 1; i < argc; i++)
 	{
-		if ((fd = file_open(argv[i])) < 0)
+		if ((fd = open(argv[i], O_RDONLY)) < 0)
 		{
 			printError(argv[i]);
 			continue;
