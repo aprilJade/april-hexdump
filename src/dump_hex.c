@@ -6,7 +6,7 @@
 #include <stdbool.h>
 #include <fcntl.h>
 
-int DumpHexStdin(int flag)
+int DumpHexStdin(const uchar optFlag)
 {
 	char buffer[BUFFER_SIZE];
 	char temp;
@@ -29,7 +29,7 @@ int DumpHexStdin(int flag)
 			size += ret;
 		}
 		totalSize += size;
-		printLine(buffer, totalSize, size, flag);
+		printLine(buffer, totalSize, size, optFlag);
 	}
 	return (EXIT_FAILURE);
 }

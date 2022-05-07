@@ -1,5 +1,6 @@
 {
     "files.associations": {
-        "hex_dump_tools.h": "c"
+        "hex_dump_tools.h": "c",
+        "general.h": "c"
     }
 }

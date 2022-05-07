@@ -1,8 +1,8 @@
 #ifndef DUMP_HEX_H
 #define DUMP_HEX_H
-#define BUFFER_SIZE 16
+#include "../includes/general.h"
 
-int DumpHexStdin(int flag);
+int DumpHexStdin(const uchar optFlag);
 int DumpHexFiles(int argc, char **argv, int flag);
 
 #endif

@@ -12,9 +12,9 @@ void charcat(char *dest, char c)
 void printLine(char *data, int total_size, int size, int flag)
 {
 	PrintIndexInHex(total_size, flag, 0);
-	PrintDataInHex((unsigned char *)data, size, flag);
+	PrintDataInHex((uchar *)data, size, flag);
 	if (flag)
-		PrintDataInAscii((unsigned char *)data, size);
+		PrintDataInAscii((uchar *)data, size);
 }
 
 void PrintIntinHex(int number, const char *hex)
@@ -47,7 +47,7 @@ void PrintIndexInHex(int size, int flag, int last)
 		write(1, "  ", 1 + flag);
 }
 
-void PrintDataInHex(unsigned char *data, int size, int flag)
+void PrintDataInHex(uchar *data, int size, int flag)
 {
 	int i = 0;
 	const char *hex = "0123456789abcdef";
@@ -81,7 +81,7 @@ void PrintDataInHex(unsigned char *data, int size, int flag)
 		write(1, "\n", 1);
 }
 
-void PrintDataInAscii(unsigned char *data, int size)
+void PrintDataInAscii(uchar *data, int size)
 {
 	write(1, "|", 1);
 	while (size--)
