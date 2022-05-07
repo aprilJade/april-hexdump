@@ -1,40 +1,60 @@
 #include "../includes/hex_dump_tools.h"
 #include "../includes/error_msg.h"
+#include "../includes/dump_hex.h"
 #include <unistd.h>
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
 #include <fcntl.h>
 
-int DumpHexStdin(const uchar optFlag)
+void PrintLine(optvec* options, char* data, int size, int totalSize)
 {
-	char buffer[BUFFER_SIZE];
-	char temp;
-	int size;
-	int totalSize;
-	int ret;
-
-	totalSize = 0;
-	while (1)
+	// not implemented yet
+	for (int i = 0; i < options->size; i++)
 	{
-		size = 0;
-		ret = 0;
-		memset(buffer, 0, BUFFER_SIZE);
-		while (size != BUFFER_SIZE)
+		switch (options->data[i])
 		{
-			ret = read(0, &temp, 1);
-			if (ret < 0)
-				return (-1);
-			charcat(buffer, temp);
-			size += ret;
+		case 'b':
+			break;
+		
+		default:
+			break;
 		}
-		totalSize += size;
-		printLine(buffer, totalSize, size, optFlagm);
 	}
-	return (EXIT_FAILURE);
+	if (options->size == 0)
+		printNormal();
 }
 
-int DumpHexFiles(int argc, char **argv, int flag)
+int DumpHexStdin(optvec* options)
+{
+	char readBuf[BUFFER_SIZE];
+	char tmp;
+	int size = 0;
+	int totalSize = 0;
+	int ret = 0;
+	
+	while ((ret = read(0, &tmp, 1)) > 0)
+	{
+		readBuf[size] = tmp;
+		size += ret;
+		totalSize += ret;
+		if (size < 16)
+			continue;
+		PrintLine(options, readBuf, size, totalSize);
+		size = 0;
+	}
+
+	if (ret == -1)
+		return (EXIT_FAILURE);
+	else
+	{
+		PrintLine(options, readBuf, size, totalSize);
+		PrintTotalSizeInHex();
+		return (EXIT_SUCCESS);
+	}
+}
+
+int DumpHexFiles(int argc, char** argv, optvec* options)
 {
 	int fd;
 	int ret;

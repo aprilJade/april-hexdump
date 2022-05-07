@@ -11,4 +11,13 @@ void charcat(char *dest, char c);
 void PrintSpaces(int len, int flag);
 void PrintIntinHex(int number, const char *hex);
 
+void PrintNormal();
+void PrintOneByteOctal();
+void PrintOneByteChar();
+void PrintCanonical();
+void PrintTwoBytesDecimal();
+void PrintTwoBytesOctal();
+void PrintTwoBytesHex();
+void PrintTotalSizeInHex();
+
 #endif

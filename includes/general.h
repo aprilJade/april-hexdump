@@ -8,8 +8,8 @@
 #define AH_OPT_TB_OCTAL		0b00000010
 #define AH_OPT_TB_HEX		0b00000001
 #define BUFFER_SIZE 16
-
 typedef unsigned char uchar;
+typedef unsigned int  uint;
 const char* g_procName;
 
 #endif

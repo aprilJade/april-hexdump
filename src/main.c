@@ -6,45 +6,40 @@
 #include "../includes/dump_hex.h"
 #include "../includes/error_msg.h"
 #include "../includes/general.h"
+#include "../includes/optvec.h"
 
 int main(int argc, char** argv)
 {
-	g_procName = argv[0];
-	uchar optFlag = 0;
 	char c;
+	g_procName = argv[0];
+	optvec* options = (optvec*)malloc(sizeof(optvec));
+	initOptvec(options);
+	
 	while ((c = getopt(argc, argv, "bcCdox")) > 0)
 	{
 		switch (c)
 		{
 			case 'b':
-				optFlag |= AH_OPT_OB_OCTAL;
-				break;
 			case 'c':
-				optFlag |= AH_OPT_OB_CHAR;
-				break;
 			case 'C':
-				optFlag |= AH_OPT_CANON;
-				break;
 			case 'd':
-				optFlag |= AH_OPT_TB_DECIMAL;
-				break;
 			case 'o':
-				optFlag |= AH_OPT_TB_OCTAL;
-				break;
 			case 'x':
-				optFlag |= AH_OPT_TB_HEX;
-				break;
+				insert(c, options);
 			default:
 				printError(c);
-				return (8);
+				free(options);
+				return (EXIT_FAILURE);
 		}
 	}
+	
 	int filesCnt = 0;
 	for (int i = 1; i < argc; i++)
 	{
 		if (argv[i][0] != '-')
 			filesCnt++;
 	}
+	
 	char** files;
 	if (filesCnt != 0)
 	{
@@ -53,12 +48,14 @@ int main(int argc, char** argv)
 			*files++ = argv[i];
 		*files -= filesCnt;
 	}
+	
 	int ret = 0;
 	if (filesCnt == 0)
-		ret = DumpHexStdin(optFlag);
+		ret = DumpHexStdin(options);
 	else
-		ret = DumpHexFiles(filesCnt, files, optFlag);
+		ret = DumpHexFiles(filesCnt, files, options);
 	if (filesCnt != 0)
 		free(files);
+	free(options);
 	return (ret);
 }

@@ -1,8 +1,9 @@
 #ifndef DUMP_HEX_H
 #define DUMP_HEX_H
 #include "../includes/general.h"
+#include "../includes/optvec.h"
 
-int DumpHexStdin(const uchar optFlag);
-int DumpHexFiles(int argc, char **argv, int flag);
+int DumpHexStdin(optvec* options);
+int DumpHexFiles(int argc, char** argv, optvec* options);
 
 #endif
