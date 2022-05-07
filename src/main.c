@@ -9,6 +9,7 @@
 
 int main(int argc, char** argv)
 {
+	g_procName = argv[0];
 	uchar optFlag = 0;
 	char c;
 	while ((c = getopt(argc, argv, "bcCdox")) > 0)
@@ -34,7 +35,7 @@ int main(int argc, char** argv)
 				optFlag |= AH_OPT_TB_HEX;
 				break;
 			default:
-				// TODO: implement print invaid option
+				printError(c);
 				return (8);
 		}
 	}

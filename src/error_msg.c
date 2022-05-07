@@ -3,8 +3,9 @@
 #include <string.h>
 #include <libgen.h>
 #include "../includes/error_msg.h"
+#include "../includes/general.h"
 
-void ft_putstr(char *str)
+void printString(char *str)
 {
 	while (*str)
 		write(1, str++, 1);
@@ -12,10 +13,20 @@ void ft_putstr(char *str)
 
 int printError(char *file_path)
 {
-	ft_putstr("ft_hexdump: ");
-	ft_putstr(basename(file_path));
-	ft_putstr(": ");
-	ft_putstr(strerror(errno));
-	ft_putstr("\n");
+	printString(basename(g_procName));
+	printString(": ");
+	printString(basename(file_path));
+	printString(": ");
+	printString(strerror(errno));
+	printString("\n");
 	return (8);
+}
+
+int	printError(char c)
+{
+	printString(basename(g_procName));
+	printString(": ");
+	printString("invalid option -- \'");
+	printString(&c);
+	printString("\'\n");
 }

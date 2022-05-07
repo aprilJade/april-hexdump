@@ -29,7 +29,7 @@ int DumpHexStdin(const uchar optFlag)
 			size += ret;
 		}
 		totalSize += size;
-		printLine(buffer, totalSize, size, optFlag);
+		printLine(buffer, totalSize, size, optFlagm);
 	}
 	return (EXIT_FAILURE);
 }

@@ -10,5 +10,6 @@
 #define BUFFER_SIZE 16
 
 typedef unsigned char uchar;
+const char* g_procName;
 
 #endif
