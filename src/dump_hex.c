@@ -81,7 +81,7 @@ int DumpHexFiles(int argc, char **argv, int flag)
 	if (totalSize == 0)
 		return (EXIT_FAILURE);
 	if (size > 0)
-		PrintRemainData(readBuf, totalSize, flag);
+		printLine(readBuf, totalSize + (BUFFER_SIZE - size), size, flag);
 	PrintIndexInHex(totalSize + BUFFER_SIZE, flag, 1);
 	write(1, "\n", 1);
 	return (EXIT_SUCCESS);

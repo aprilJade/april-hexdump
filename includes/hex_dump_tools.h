@@ -8,7 +8,7 @@ void PrintDataInHex(unsigned char *data, int size, int flag);
 void PrintDataInAscii(unsigned char *data, int size);
 void PrintRemainData(char *data, int size, int flag);
 void charcat(char *dest, char c);
-void PrintSpaces(int len);
-void PrintIntinHex(int number, char *hex);
+void PrintSpaces(int len, int flag);
+void PrintIntinHex(int number, const char *hex);
 
 #endif

@@ -1,6 +1,6 @@
 NAME	=	april_hexdump
 CC		=	gcc
-FLAG	=	-Wall -Wextra -Werror
+FLAG	=	-g -Wall -Wextra -Werror
 INCLUDE	=	-Iincludes/
 SRC_DIR	=	./src
 OBJ_DIR	=	./obj
