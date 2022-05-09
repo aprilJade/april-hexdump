@@ -1,10 +1,8 @@
 #ifndef ERROR_MSG_H
 #define ERROR_MSG_H
 
-void printString(char *str);
-int printError(char *file_path);
-int ft_strncmp(char *s1, char *s2);
-int ft_strlen(char *str);
-void printFdError(char *file_path);
+void PrintString(char *str);
+int PrintError(char *file_path, char* processName);
+int PrintOptError(char opt, char* processName);
 
 #endif

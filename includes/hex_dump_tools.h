@@ -1,6 +1,7 @@
 #ifndef HEX_DUMP_TOOLS_H
 #define HEX_DUMP_TOOLS_H
 #include "../includes/general.h"
+#include "../includes/optvec.h"
 
 void printLine(char *data, int total_size, int size, int flag);
 void PrintIndexInHex(int size, int flag, int last);
@@ -11,6 +12,8 @@ void charcat(char *dest, char c);
 void PrintSpaces(int len, int flag);
 void PrintIntinHex(int number, const char *hex);
 
+void PrintIndex(int size);
+
 void PrintNormal();
 void PrintOneByteOctal();
 void PrintOneByteChar();
@@ -19,5 +22,6 @@ void PrintTwoBytesDecimal();
 void PrintTwoBytesOctal();
 void PrintTwoBytesHex();
 void PrintTotalSizeInHex();
+void PrintLine(optvec* options, char* data, int size, int totalSize);
 
 #endif

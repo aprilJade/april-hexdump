@@ -3,30 +3,30 @@
 #include <string.h>
 #include <libgen.h>
 #include "../includes/error_msg.h"
-#include "../includes/general.h"
 
-void printString(char *str)
+void PrintString(char *str)
 {
 	while (*str)
 		write(1, str++, 1);
 }
 
-int printError(char *file_path)
+int PrintError(char *file_path, char* processName)
 {
-	printString(basename(g_procName));
-	printString(": ");
-	printString(basename(file_path));
-	printString(": ");
-	printString(strerror(errno));
-	printString("\n");
+	PrintString(processName);
+	PrintString(": ");
+	PrintString(basename(file_path));
+	PrintString(": ");
+	PrintString(strerror(errno));
+	PrintString("\n");
 	return (8);
 }
 
-int	printError(char c)
+int	PrintOptError(char opt, char* processName)
 {
-	printString(basename(g_procName));
-	printString(": ");
-	printString("invalid option -- \'");
-	printString(&c);
-	printString("\'\n");
+	PrintString(basename(processName));
+	PrintString(": ");
+	PrintString("invalid option -- \'");
+	PrintString(&opt);
+	PrintString("\'\n");
+	return (8);
 }

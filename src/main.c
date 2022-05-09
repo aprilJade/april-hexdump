@@ -11,25 +11,19 @@
 int main(int argc, char** argv)
 {
 	char c;
-	g_procName = argv[0];
+	
 	optvec* options = (optvec*)malloc(sizeof(optvec));
 	initOptvec(options);
 	
 	while ((c = getopt(argc, argv, "bcCdox")) > 0)
 	{
-		switch (c)
+		if (c == 'b' || c == 'c' || c == 'C' || c == 'd' || c == 'o' || c == 'x')
+			insert(c, options);
+		else
 		{
-			case 'b':
-			case 'c':
-			case 'C':
-			case 'd':
-			case 'o':
-			case 'x':
-				insert(c, options);
-			default:
-				printError(c);
-				free(options);
-				return (EXIT_FAILURE);
+			PrintOptError(c, argv[0]);
+			free(options);
+			return (EXIT_FAILURE);
 		}
 	}
 	
@@ -52,8 +46,8 @@ int main(int argc, char** argv)
 	int ret = 0;
 	if (filesCnt == 0)
 		ret = DumpHexStdin(options);
-	else
-		ret = DumpHexFiles(filesCnt, files, options);
+	//else
+	//	ret = DumpHexFiles(filesCnt, files, options);
 	if (filesCnt != 0)
 		free(files);
 	free(options);

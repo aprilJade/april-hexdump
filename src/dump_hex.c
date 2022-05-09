@@ -7,34 +7,18 @@
 #include <stdbool.h>
 #include <fcntl.h>
 
-void PrintLine(optvec* options, char* data, int size, int totalSize)
-{
-	// not implemented yet
-	for (int i = 0; i < options->size; i++)
-	{
-		switch (options->data[i])
-		{
-		case 'b':
-			break;
-		
-		default:
-			break;
-		}
-	}
-	if (options->size == 0)
-		printNormal();
-}
-
 int DumpHexStdin(optvec* options)
 {
-	char readBuf[BUFFER_SIZE];
+	char readBuf[BUFFER_SIZE] = { 0, };
 	char tmp;
 	int size = 0;
 	int totalSize = 0;
 	int ret = 0;
 	
-	while ((ret = read(0, &tmp, 1)) > 0)
+	while ((ret = read(0, &tmp, 1)) >= 0)
 	{
+		if (ret == 0)
+			break;
 		readBuf[size] = tmp;
 		size += ret;
 		totalSize += ret;
@@ -42,18 +26,22 @@ int DumpHexStdin(optvec* options)
 			continue;
 		PrintLine(options, readBuf, size, totalSize);
 		size = 0;
+		for (int i = 0; i < BUFFER_SIZE; i++)
+			readBuf[i] = 0;
 	}
 
 	if (ret == -1)
 		return (EXIT_FAILURE);
 	else
 	{
-		PrintLine(options, readBuf, size, totalSize);
-		PrintTotalSizeInHex();
+		PrintLine(options, readBuf, size, totalSize + (16 - size));
+		PrintIndex(totalSize + 16);
+		write(1, "\n", 1);
 		return (EXIT_SUCCESS);
 	}
 }
 
+	/*
 int DumpHexFiles(int argc, char** argv, optvec* options)
 {
 	int fd;
@@ -68,7 +56,7 @@ int DumpHexFiles(int argc, char** argv, optvec* options)
 	{
 		if ((fd = open(argv[i], O_RDONLY)) < 0)
 		{
-			printError(argv[i]);
+			PrintError(argv[i]);
 			continue;
 		}
 
@@ -94,7 +82,7 @@ int DumpHexFiles(int argc, char** argv, optvec* options)
 			isOverlapped = false;
 		}
 		if (ret < 0)
-			printError(argv[i]);
+			PrintError(argv[i]);
 		close(fd);
 	}
 	totalSize += size;
@@ -106,3 +94,5 @@ int DumpHexFiles(int argc, char** argv, optvec* options)
 	write(1, "\n", 1);
 	return (EXIT_SUCCESS);
 }
+
+	*/

@@ -16,7 +16,7 @@ int insert(uchar data, optvec* vec)
     return (vec->size);
 }
 
-char getData(optvec* vec, uint idx)
+char getData(optvec* vec, int idx)
 {
     if (idx < 0 || idx > OPTION_COUNT - 1)
         return (-1);

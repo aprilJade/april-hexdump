@@ -6,11 +6,11 @@
 typedef struct optvec
 {
     uchar data[OPTION_COUNT];
-    uint size;
+    int size;
 } optvec;
 
 void initOptvec(optvec* vec);
 int insert(uchar data, optvec* vec);
-char getData(optvec* vec, uint idx);
+char getData(optvec* vec, int idx);
 
 #endif
