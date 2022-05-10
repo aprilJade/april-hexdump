@@ -4,5 +4,6 @@
 void PrintString(char *str);
 int PrintError(char *file_path, char* procName);
 int PrintOptError(char opt, char* procName);
+int PrintFailAllArg(char* procName);
 
 #endif

@@ -14,7 +14,7 @@ void PrintString(char *str)
 
 int PrintError(char *file_path, char* procName)
 {
-	PrintString(procName);
+	PrintString(basename(procName));
 	PrintString(": ");
 	PrintString(basename(file_path));
 	PrintString(": ");
@@ -30,5 +30,13 @@ int	PrintOptError(char opt, char* procName)
 	PrintString("invalid option -- \'");
 	PrintString(&opt);
 	PrintString("\'\n");
+	return EXIT_FAILURE;
+}
+
+int PrintFailAllArg(char* procName)
+{
+	PrintString(basename(procName));
+	PrintString(": ");
+	PrintString("all input file arguments failed\n");
 	return EXIT_FAILURE;
 }

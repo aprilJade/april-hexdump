@@ -15,6 +15,7 @@ int DumpHexStdin(optvec* options)
 	int totalSize = 0;
 	int ret = 0;
 	
+	// TODO: Implement feature - skip overlap
 	while ((ret = read(0, &tmp, 1)) >= 0)
 	{
 		if (ret == 0)
@@ -48,8 +49,10 @@ int DumpHexFiles(int fileCnt, char** files, optvec* options, char* procName)
 	int readRet = 0;
 	int size = 0;
 	int totalSize = 0;
+	int successCnt = 0;
 	uchar buf[BUFFER_SIZE];
 
+	// TODO: Implement feature - skip overlap
 	for (int i = 0; i < fileCnt; i++)
 	{
 		if ((fd = open(files[i], O_RDONLY)) < 0)
@@ -72,9 +75,10 @@ int DumpHexFiles(int fileCnt, char** files, optvec* options, char* procName)
 		}
 		if (readRet == FAIL_TO_READ)
 			ret = PrintError(files[i], procName);
+		successCnt++;
 	}
-	if (readRet == -1)
-		ret = EXIT_FAILURE;
+	if (successCnt == 0)
+		ret = PrintFailAllArg(procName);
 	else
 	{
 		PrintLine(options, buf, size, totalSize + (16 - size));
