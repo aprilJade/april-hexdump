@@ -34,6 +34,14 @@ int main(int argc, char** argv)
 			filesCnt++;
 	}
 	
+	if (filesCnt != 0)
+	{
+		write(1, "Sorry!! not implement yet hexdump for file input\n", 49);
+		write(1, "Please use april hexdump with stdin only\n", 41);
+		free(options);
+		return (EXIT_FAILURE);
+	}
+
 	char** files;
 	if (filesCnt != 0)
 	{
