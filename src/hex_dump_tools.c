@@ -5,6 +5,7 @@
 #include "../includes/hex_dump_tools.h"
 #include "../includes/error_msg.h"
 
+#define INDEX_LEN 8
 static const char* g_strBase = "0123456789abcdef";
 static char g_nbrBuf[7];
 
@@ -15,18 +16,6 @@ enum e_base
 	HEXADECIMAL = 16
 };
 
-void PrintIntinHex(int number)
-{
-	// TODO: remove recursive
-	if (number > 15)
-	{
-		PrintIntinHex(number / HEXADECIMAL);
-		write(1, &g_strBase[number % HEXADECIMAL], 1);
-	}
-	else
-		write(1, &g_strBase[number % HEXADECIMAL], 1);
-}
-
 void PrintOneByteInHex(uchar data)
 {
 	write(1, &g_strBase[data / HEXADECIMAL], 1);
@@ -36,17 +25,17 @@ void PrintOneByteInHex(uchar data)
 void PrintIndex(int size)
 {
 	int i = 0;
-	int tmp;
+	char buf[INDEX_LEN];
+	for (i = 0; i < INDEX_LEN; i++)
+		buf[i] = '0';
+	
 	size -= BUFFER_SIZE;
-	tmp = size;
-	while (tmp > 0)
+	while (size > 0)
 	{
-		tmp /= BUFFER_SIZE;
-		i++;
+		buf[--i] = g_strBase[size % HEXADECIMAL];
+		size /= 16;
 	}
-	write(1, "00000000", 7 - i);
-	if (size > 0)
-		PrintIntinHex(size);
+	write(1, buf, INDEX_LEN);
 }
 
 void PrintNormal(uchar* data, int size, int totalSize)
