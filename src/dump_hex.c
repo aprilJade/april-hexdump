@@ -60,7 +60,7 @@ int DumpHexFiles(int fileCnt, char** files, optvec* options, char* procName)
 			ret = PrintError(files[i], procName);
 			continue;
 		}
-		while ((readRet = read(fd, buf, BUFFER_SIZE)) >= 0)
+		while ((readRet = read(fd, buf + size, BUFFER_SIZE - size)) >= 0)
 		{
 			if (readRet == 0)
 				break;
