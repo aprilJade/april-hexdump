@@ -1,4 +1,4 @@
 *.txt
 /obj
 /april_hexdump
-./vscode
+.vscode
