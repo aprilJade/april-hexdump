@@ -227,10 +227,9 @@ void PrintTwoBytesHex(uchar* data, int size, int totalSize)
 
 void PrintLine(optvec* options, uchar* data, int size, int totalSize)
 {
-	char c;
 	for (int i = 0; i < options->size; i++)
 	{
-		switch (c = options->data[i])
+		switch (options->data[i])
 		{
 		case 'b':
 			PrintOneByteOctal(data, size, totalSize);
