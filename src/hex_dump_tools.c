@@ -15,48 +15,44 @@ enum e_base
 	HEXA_DECIMAL = 16
 };
 
-void PrintIntinHex(int number, const char *hex)
+void PrintIntinHex(int number)
 {
 	// TODO: remove recursive
 	if (number > 15)
 	{
-		PrintIntinHex(number / 16, hex);
-		write(1, &hex[number % 16], 1);
+		PrintIntinHex(number / HEXA_DECIMAL);
+		write(1, &g_strBase[number % HEXA_DECIMAL], 1);
 	}
 	else
-		write(1, &hex[number % 16], 1);
+		write(1, &g_strBase[number % HEXA_DECIMAL], 1);
 }
 
 void PrintOneByteInHex(uchar data)
 {
-	// TODO: refactor inefficient literal string
-	char* hex = "0123456789abcedf";
-	write(1, &hex[data / 16], 1);
-	write(1, &hex[data % 16], 1);
+	write(1, &g_strBase[data / HEXA_DECIMAL], 1);
+	write(1, &g_strBase[data % HEXA_DECIMAL], 1);
 }
 
 void PrintIndex(int size)
 {
 	int i = 0;
 	int tmp;
-	// TODO: refactor inefficient literal string
-	const char *hex = "0123456789abcdef";
-	size -= 16;
+	size -= BUFFER_SIZE;
 	tmp = size;
 	while (tmp > 0)
 	{
-		tmp /= 16;
+		tmp /= BUFFER_SIZE;
 		i++;
 	}
 	write(1, "00000000", 7 - i);
 	if (size > 0)
-		PrintIntinHex(size, hex);
+		PrintIntinHex(size);
 }
 
 void PrintNormal(uchar* data, int size, int totalSize)
 {
 	PrintIndex(totalSize);
-	for (int i = 0; i < 16 && i < size; i += 2)
+	for (int i = 0; i < BUFFER_SIZE && i < size; i += 2)
 	{
 		write(1, " ", 1);
 		PrintOneByteInHex(*++data);
