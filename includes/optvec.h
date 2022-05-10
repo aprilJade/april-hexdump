@@ -9,8 +9,8 @@ typedef struct optvec
     int size;
 } optvec;
 
-void initOptvec(optvec* vec);
-int insert(uchar data, optvec* vec);
-char getData(optvec* vec, int idx);
+void InitOptvec(optvec* vec);
+int Insert(uchar data, optvec* vec);
+char GetData(optvec* vec, int idx);
 
 #endif

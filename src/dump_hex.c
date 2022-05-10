@@ -31,13 +31,13 @@ int DumpHexStdin(optvec* options)
 	}
 
 	if (ret == -1)
-		return (EXIT_FAILURE);
+		return EXIT_FAILURE;
 	else
 	{
 		PrintLine(options, (uchar*)readBuf, size, totalSize + (16 - size));
 		PrintIndex(totalSize + 16);
 		write(1, "\n", 1);
-		return (EXIT_SUCCESS);
+		return EXIT_SUCCESS;
 	}
 }
 

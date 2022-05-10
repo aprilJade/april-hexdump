@@ -160,7 +160,7 @@ void PrintCanonical(uchar* data, int size, int totalSize)
 	write(1, "|\n", 2);
 }
 
-void PrintShortToBase(unsigned short n, int base)
+void PrintShortToBase(ushort n, int base)
 {
 	int digit;
 	int i;
@@ -185,7 +185,7 @@ void PrintShortToBase(unsigned short n, int base)
 
 void PrintTwoBytesDecimal(uchar* data, int size, int totalSize)
 {
-	unsigned short tmp;
+	ushort tmp;
 	PrintIndex(totalSize);
 	for (int i = 0; i < size; i += sizeof(short))
 	{
@@ -199,7 +199,7 @@ void PrintTwoBytesDecimal(uchar* data, int size, int totalSize)
 
 void PrintTwoBytesOctal(uchar* data, int size, int totalSize)
 {
-	unsigned short tmp;
+	ushort tmp;
 	PrintIndex(totalSize);
 	for (int i = 0; i < size; i += sizeof(short))
 	{
@@ -213,7 +213,7 @@ void PrintTwoBytesOctal(uchar* data, int size, int totalSize)
 
 void PrintTwoBytesHex(uchar* data, int size, int totalSize)
 {
-	unsigned short tmp;
+	ushort tmp;
 	PrintIndex(totalSize);
 	for (int i = 0; i < size; i += sizeof(short))
 	{

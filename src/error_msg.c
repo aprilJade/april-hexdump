@@ -2,6 +2,7 @@
 #include <errno.h>
 #include <string.h>
 #include <libgen.h>
+#include <stdlib.h>
 #include "../includes/error_msg.h"
 
 void PrintString(char *str)
@@ -18,7 +19,7 @@ int PrintError(char *file_path, char* processName)
 	PrintString(": ");
 	PrintString(strerror(errno));
 	PrintString("\n");
-	return (8);
+	return EXIT_FAILURE;
 }
 
 int	PrintOptError(char opt, char* processName)
@@ -28,5 +29,5 @@ int	PrintOptError(char opt, char* processName)
 	PrintString("invalid option -- \'");
 	PrintString(&opt);
 	PrintString("\'\n");
-	return (8);
+	return EXIT_FAILURE;
 }
