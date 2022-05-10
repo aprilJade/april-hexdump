@@ -277,7 +277,38 @@ void PrintTwoBytesOctal(char* data, int size, int totalSize)
 	}
 	write(1, "\n", 1);
 }
-void PrintTwoBytesHex(char* data, int size, int totalSize);
+
+void PrintShortInHex(unsigned short n)
+{
+	char* base = "0123456789abcdef";
+	char buf[5];
+	int i;
+
+	for (i = 0; i < 4; i++)
+		buf[i] = '0';
+	buf[i--] = 0;
+	while (n > 0)
+	{
+		buf[i--] = base[n % 16];
+		n /= 16;
+	}
+	write(1, buf, 5);
+}
+
+void PrintTwoBytesHex(char* data, int size, int totalSize)
+{
+	unsigned short tmp;
+	PrintIndex(totalSize);
+	for (int i = 0; i < size; i++)
+	{
+		write(1, "    ", 4);
+		memset(&tmp, data, sizeof(short));
+		PrintShortInHex(tmp);
+		data += sizeof(short);
+	}
+	write(1, "\n", 1);
+}
+
 void PrintTotalSizeInHex(int totalSize);
 
 void PrintLine(optvec* options, char* data, int size, int totalSize)
