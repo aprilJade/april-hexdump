@@ -4,6 +4,7 @@
 #include <stdbool.h>
 #include <stdlib.h>
 #include "../includes/dump_hex.h"
+#include "../includes/hex_dump_tools.h"
 #include "../includes/error_msg.h"
 #include "../includes/general.h"
 #include "../includes/optvec.h"
@@ -16,10 +17,27 @@ int main(int argc, char** argv)
 	
 	while ((c = getopt(argc, argv, "bcCdox")) > 0)
 	{
-		if (c == 'b' || c == 'c' || c == 'C' || c == 'd' || c == 'o' || c == 'x')
-			Insert(c, options);
-		else
+		switch (c)
 		{
+		case 'b':
+			Insert(PrintOneByteOctal, options);
+			break;
+		case 'c':
+			Insert(PrintOneByteChar, options);
+			break;
+		case 'C':
+			Insert(PrintCanonical, options);
+			break;
+		case 'd':
+			Insert(PrintTwoBytesDecimal, options);
+			break;
+		case 'o':
+			Insert(PrintTwoBytesOctal, options);
+			break;
+		case 'x':
+			Insert(PrintTwoBytesHex, options);
+			break;
+		default:
 			PrintOptError(c, argv[0]);
 			free(options);
 			return EXIT_FAILURE;

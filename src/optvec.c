@@ -7,9 +7,9 @@ void InitOptvec(optvec* vec)
         vec->data[i] = 0;
 }
 
-int Insert(uchar data, optvec* vec)
+int Insert(void (*fuction)(unsigned char*, int), optvec* vec)
 {
-    vec->data[vec->size] = data;
+    vec->data[vec->size] = fuction;
     vec->size += 1;
     return vec->size;
 }

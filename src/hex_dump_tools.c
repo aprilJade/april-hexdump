@@ -211,32 +211,12 @@ void PrintTwoBytesHex(uchar* data, int size)
 
 void PrintLine(optvec* options, uchar* data, int size, int totalSize)
 {
+	void (*func)(uchar*, int);
 	for (int i = 0; i < options->size; i++)
 	{
 		PrintIndex(totalSize);
-		switch (options->data[i])
-		{
-		case 'b':
-			PrintOneByteOctal(data, size);
-			break;
-		case 'c':
-			PrintOneByteChar(data, size);
-			break;
-		case 'C':
-			PrintCanonical(data, size);
-			break;
-		case 'd':
-			PrintTwoBytesDecimal(data, size);
-			break;
-		case 'o':
-			PrintTwoBytesOctal(data, size);
-			break;
-		case 'x':
-			PrintTwoBytesHex(data, size);
-			break;
-		default:
-			break;
-		}
+		func = options->data[i];
+		func(data, size);
 	}
 
 	if (options->size == 0)
