@@ -92,8 +92,8 @@ void PrintOneByteOctal(uchar* data, int size, int totalSize)
 bool isPrintable(uchar c)
 {
 	if (c < 32 || c > 126)
-		return (false);
-	return (true);
+		return false;
+	return true;
 }
 
 void PrintOneByteChar(uchar* data, int size, int totalSize)

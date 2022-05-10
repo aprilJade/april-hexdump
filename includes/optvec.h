@@ -11,6 +11,5 @@ typedef struct optvec
 
 void InitOptvec(optvec* vec);
 int Insert(uchar data, optvec* vec);
-char GetData(optvec* vec, int idx);
 
 #endif

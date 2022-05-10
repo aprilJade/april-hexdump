@@ -9,16 +9,7 @@ void InitOptvec(optvec* vec)
 
 int Insert(uchar data, optvec* vec)
 {
-    if (vec->size == OPTION_COUNT)
-        return (-1);
     vec->data[vec->size] = data;
     vec->size += 1;
     return vec->size;
-}
-
-char GetData(optvec* vec, int idx)
-{
-    if (idx < 0 || idx > OPTION_COUNT - 1)
-        return (-1);
-    return vec->data[idx];
 }
