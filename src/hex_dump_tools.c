@@ -241,7 +241,7 @@ void PrintTwoBytesDecimal(uchar* data, int size, int totalSize)
 {
 	unsigned short tmp;
 	PrintIndex(totalSize);
-	for (int i = 0; i < size; i += 2)
+	for (int i = 0; i < size; i += sizeof(short))
 	{
 		write(1, "   ", 3);
 		memcpy(&tmp, data, sizeof(short));
@@ -271,7 +271,7 @@ void PrintTwoBytesOctal(uchar* data, int size, int totalSize)
 {
 	unsigned short tmp;
 	PrintIndex(totalSize);
-	for (int i = 0; i < size; i++)
+	for (int i = 0; i < size; i += sizeof(short))
 	{
 		write(1, "  ", 2);
 		memcpy(&tmp, data, sizeof(short));
@@ -302,7 +302,7 @@ void PrintTwoBytesHex(uchar* data, int size, int totalSize)
 {
 	unsigned short tmp;
 	PrintIndex(totalSize);
-	for (int i = 0; i < size; i++)
+	for (int i = 0; i < size; i += sizeof(short))
 	{
 		write(1, "    ", 4);
 		memcpy(&tmp, data, sizeof(short));
