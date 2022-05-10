@@ -7,15 +7,21 @@
 #include "../includes/error_msg.h"
 #include "../includes/dump_hex.h"
 
+bool IsOverlapped(uchar* s1, uchar* s2)
+{
+	return memcmp(s1, s2, BUFFER_SIZE) == 0 ? true : false;
+}
+
 int DumpHexStdin(optvec* options)
 {
 	uchar readBuf[BUFFER_SIZE] = { 0, };
+	uchar tmpBuf[BUFFER_SIZE] = { 0, };
 	char tmp;
 	int size = 0;
 	int totalSize = 0;
 	int ret = 0;
-	
-	// TODO: Implement feature - skip overlap
+	bool b_isOverlapped = false;
+
 	while ((ret = read(0, &tmp, 1)) >= 0)
 	{
 		if (ret == 0)
@@ -23,10 +29,20 @@ int DumpHexStdin(optvec* options)
 		readBuf[size] = tmp;
 		size += ret;
 		totalSize += ret;
-		if (size < 16)
+		if (size < BUFFER_SIZE)
 			continue;
+		if (IsOverlapped(tmpBuf, readBuf) == true)
+		{
+			if (b_isOverlapped == false)
+				write(1, "*\n", 2);
+			b_isOverlapped = true;
+			size = 0;
+			continue;
+		}
 		PrintLine(options, readBuf, size, totalSize);
+		memcpy(tmpBuf, readBuf, BUFFER_SIZE);
 		size = 0;
+		b_isOverlapped = false;
 		for (int i = 0; i < BUFFER_SIZE; i++)
 			readBuf[i] = 0;
 	}

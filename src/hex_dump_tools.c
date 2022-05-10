@@ -12,7 +12,7 @@ enum e_base
 {
 	OCTAL = 8,
 	DECIMAL = 10,
-	HEXA_DECIMAL = 16
+	HEXADECIMAL = 16
 };
 
 void PrintIntinHex(int number)
@@ -20,17 +20,17 @@ void PrintIntinHex(int number)
 	// TODO: remove recursive
 	if (number > 15)
 	{
-		PrintIntinHex(number / HEXA_DECIMAL);
-		write(1, &g_strBase[number % HEXA_DECIMAL], 1);
+		PrintIntinHex(number / HEXADECIMAL);
+		write(1, &g_strBase[number % HEXADECIMAL], 1);
 	}
 	else
-		write(1, &g_strBase[number % HEXA_DECIMAL], 1);
+		write(1, &g_strBase[number % HEXADECIMAL], 1);
 }
 
 void PrintOneByteInHex(uchar data)
 {
-	write(1, &g_strBase[data / HEXA_DECIMAL], 1);
-	write(1, &g_strBase[data % HEXA_DECIMAL], 1);
+	write(1, &g_strBase[data / HEXADECIMAL], 1);
+	write(1, &g_strBase[data % HEXADECIMAL], 1);
 }
 
 void PrintIndex(int size)
@@ -169,7 +169,7 @@ void PrintShortToBase(ushort n, int base)
 		digit = 6;
 	else if (base == DECIMAL)
 		digit = 5;
-	else if (base == HEXA_DECIMAL)
+	else if (base == HEXADECIMAL)
 		digit = 4;
 
 	for (i = 0; i < digit; i++)
@@ -219,7 +219,7 @@ void PrintTwoBytesHex(uchar* data, int size, int totalSize)
 	{
 		write(1, "    ", 4);
 		memcpy(&tmp, data, sizeof(short));
-		PrintShortToBase(tmp, HEXA_DECIMAL);
+		PrintShortToBase(tmp, HEXADECIMAL);
 		data += sizeof(short);
 	}
 	write(1, "\n", 1);
