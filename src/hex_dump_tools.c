@@ -241,7 +241,7 @@ void PrintTwoBytesDecimal(uchar* data, int size, int totalSize)
 {
 	unsigned short tmp;
 	PrintIndex(totalSize);
-	for (int i = 0; i < size; i++)
+	for (int i = 0; i < size; i += 2)
 	{
 		write(1, "   ", 3);
 		memcpy(&tmp, data, sizeof(short));
