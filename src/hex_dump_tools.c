@@ -5,6 +5,16 @@
 #include <string.h>
 #include <stdbool.h>
 
+static const char* g_strBase = "0123456789abcdef";
+static char g_nbrBuf[7];
+
+enum e_base
+{
+	OCTAL = 8,
+	DECIMAL = 10,
+	HEXA_DECIMAL = 16
+};
+
 void PrintIntinHex(int number, const char *hex)
 {
 	// TODO: remove recursive
@@ -154,54 +164,27 @@ void PrintCanonical(uchar* data, int size, int totalSize)
 	write(1, "|\n", 2);
 }
 
-// TODO: refactor PrintShort series
-void PrintShort(unsigned short n)
+void PrintShortToBase(unsigned short n, int base)
 {
-	char buf[6];
+	int digit;
 	int i;
 
-	for (i = 0; i < 5; i++)
-		buf[i] = '0';
-	buf[i--] = 0;
+	if (base == OCTAL)
+		digit = 6;
+	else if (base == DECIMAL)
+		digit = 5;
+	else if (base == HEXA_DECIMAL)
+		digit = 4;
+
+	for (i = 0; i < digit; i++)
+		g_nbrBuf[i] = '0';
+	g_nbrBuf[i--] = 0;
 	while (n > 0)
 	{
-		buf[i--] = (n % 10) + '0';
-		n /= 10;
+		g_nbrBuf[i--] = g_strBase[n % base];
+		n /= base;
 	}
-	write(1, buf, 5);
-}
-
-void PrintShortInOctal(unsigned short n)
-{
-	char buf[7];
-	int i;
-
-	for (i = 0; i < 6; i++)
-		buf[i] = '0';
-	buf[i--] = 0;
-	while (n > 0)
-	{
-		buf[i--] = (n % 8) + '0';
-		n /= 8;
-	}
-	write(1, buf, 6);
-}
-
-void PrintShortInHex(unsigned short n)
-{
-	char* base = "0123456789abcdef";
-	char buf[5];
-	int i;
-
-	for (i = 0; i < 4; i++)
-		buf[i] = '0';
-	buf[i--] = 0;
-	while (n > 0)
-	{
-		buf[i--] = base[n % 16];
-		n /= 16;
-	}
-	write(1, buf, 5);
+	write(1, g_nbrBuf, digit);
 }
 
 void PrintTwoBytesDecimal(uchar* data, int size, int totalSize)
@@ -212,7 +195,7 @@ void PrintTwoBytesDecimal(uchar* data, int size, int totalSize)
 	{
 		write(1, "   ", 3);
 		memcpy(&tmp, data, sizeof(short));
-		PrintShort(tmp);
+		PrintShortToBase(tmp, DECIMAL);
 		data += sizeof(short);
 	}
 	write(1, "\n", 1);
@@ -226,7 +209,7 @@ void PrintTwoBytesOctal(uchar* data, int size, int totalSize)
 	{
 		write(1, "  ", 2);
 		memcpy(&tmp, data, sizeof(short));
-		PrintShortInOctal(tmp);
+		PrintShortToBase(tmp, OCTAL);
 		data += sizeof(short);
 	}
 	write(1, "\n", 1);
@@ -240,7 +223,7 @@ void PrintTwoBytesHex(uchar* data, int size, int totalSize)
 	{
 		write(1, "    ", 4);
 		memcpy(&tmp, data, sizeof(short));
-		PrintShortInHex(tmp);
+		PrintShortToBase(tmp, HEXA_DECIMAL);
 		data += sizeof(short);
 	}
 	write(1, "\n", 1);
