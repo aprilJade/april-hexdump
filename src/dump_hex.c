@@ -16,17 +16,15 @@ int DumpHexStdin(optvec* options)
 {
 	uchar readBuf[BUFFER_SIZE] = { 0, };
 	uchar tmpBuf[BUFFER_SIZE] = { 0, };
-	char tmp;
 	int size = 0;
 	int totalSize = 0;
 	int ret = 0;
 	bool b_isOverlapped = false;
 
-	while ((ret = read(0, &tmp, 1)) >= 0)
+	while ((ret = read(0, readBuf + size, BUFFER_SIZE - size)) >= 0)
 	{
 		if (ret == 0)
 			break;
-		readBuf[size] = tmp;
 		size += ret;
 		totalSize += ret;
 		if (size < BUFFER_SIZE)
@@ -93,13 +91,14 @@ int DumpHexFiles(int fileCnt, char** files, optvec* options, char* procName)
 			ret = PrintError(files[i], procName);
 		successCnt++;
 	}
+
 	if (successCnt == 0)
-		ret = PrintFailAllArg(procName);
-	else
-	{
+		return PrintFailAllArg(procName);
+
+	if (size != 0)
 		PrintLine(options, buf, size, totalSize + (16 - size));
-		PrintIndex(totalSize + 16);
-		write(1, "\n", 1);
-	}
+	PrintIndex(totalSize + 16);
+	write(1, "\n", 1);
+
 	return ret;
 }
