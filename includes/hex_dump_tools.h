@@ -14,14 +14,6 @@ void PrintIntinHex(int number, const char *hex);
 
 void PrintIndex(int size);
 
-void PrintNormal();
-void PrintOneByteOctal();
-void PrintOneByteChar();
-void PrintCanonical();
-void PrintTwoBytesDecimal();
-void PrintTwoBytesOctal();
-void PrintTwoBytesHex();
-void PrintTotalSizeInHex();
-void PrintLine(optvec* options, char* data, int size, int totalSize);
+void PrintLine(optvec* options, uchar* data, int size, int totalSize);
 
 #endif

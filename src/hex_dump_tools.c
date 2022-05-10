@@ -139,7 +139,7 @@ void PrintNormal(uchar* data, int size, int totalSize)
 	write(1, "\n", 1);
 }
 
-void PrintOneByteOctal(char* data, int size, int totalSize)
+void PrintOneByteOctal(uchar* data, int size, int totalSize)
 {
 	PrintIndex(totalSize);
 	for (int i = 0; i < size; i++)
@@ -160,7 +160,7 @@ bool isPrintable(uchar c)
 void PrintOneByteChar(uchar* data, int size, int totalSize)
 {
 	PrintIndex(totalSize);
-	char buf[6] = {"\\0", "\\t", "\\n", "\\v", "\\f", "\\r"};
+	char buf[6][3] = {"\\0", "\\t", "\\n", "\\v", "\\f", "\\r"};
 	uchar tmp;
 	for (int i = 0; i < size; i++)
 	{
@@ -190,6 +190,7 @@ void PrintOneByteChar(uchar* data, int size, int totalSize)
 				PrintCtoi(*data);
 			}
 		}
+		data++;
 	}
 	write(1, "\n", 1);
 }
@@ -234,14 +235,14 @@ void PrintShort(unsigned short n)
 	write(1, buf, 5);
 }
 
-void PrintTwoBytesDecimal(char* data, int size, int totalSize)
+void PrintTwoBytesDecimal(uchar* data, int size, int totalSize)
 {
 	unsigned short tmp;
 	PrintIndex(totalSize);
 	for (int i = 0; i < size; i++)
 	{
 		write(1, "   ", 3);
-		memset(&tmp, data, sizeof(short));
+		memcpy(&tmp, data, sizeof(short));
 		PrintShort(tmp);
 		data += sizeof(short);
 	}
@@ -264,14 +265,14 @@ void PrintShortInOctal(unsigned short n)
 	write(1, buf, 6);
 }
 
-void PrintTwoBytesOctal(char* data, int size, int totalSize)
+void PrintTwoBytesOctal(uchar* data, int size, int totalSize)
 {
 	unsigned short tmp;
 	PrintIndex(totalSize);
 	for (int i = 0; i < size; i++)
 	{
 		write(1, "  ", 2);
-		memset(&tmp, data, sizeof(short));
+		memcpy(&tmp, data, sizeof(short));
 		PrintShortInOctal(tmp);
 		data += sizeof(short);
 	}
@@ -295,51 +296,49 @@ void PrintShortInHex(unsigned short n)
 	write(1, buf, 5);
 }
 
-void PrintTwoBytesHex(char* data, int size, int totalSize)
+void PrintTwoBytesHex(uchar* data, int size, int totalSize)
 {
 	unsigned short tmp;
 	PrintIndex(totalSize);
 	for (int i = 0; i < size; i++)
 	{
 		write(1, "    ", 4);
-		memset(&tmp, data, sizeof(short));
+		memcpy(&tmp, data, sizeof(short));
 		PrintShortInHex(tmp);
 		data += sizeof(short);
 	}
 	write(1, "\n", 1);
 }
 
-void PrintTotalSizeInHex(int totalSize);
-
-void PrintLine(optvec* options, char* data, int size, int totalSize)
+void PrintLine(optvec* options, uchar* data, int size, int totalSize)
 {
-	//char c;
-	//for (int i = 0; i < options->size; i++)
-	//{
-	//	switch (c = options->data[i])
-	//	{
-	//	case 'b':
-	//		PrintOneByteOctal(data, size, totalSize);
-	//		break;
-	//	case 'c':
-	//		PrintOneByteChar(data, size, totalSize);
-	//		break;
-	//	case 'C':
-	//		PrintCanonical(data, size, totalSize);
-	//		break;
-	//	case 'd':
-	//		PrintTwoBytesDecimal(data, size, totalSize);
-	//		break;
-	//	case 'o':
-	//		PrintTwoBytesOctal(data, size, totalSize);
-	//		break;
-	//	case 'x':
-	//		PrintTwoBytesHex(data, size, totalSize);
-	//		break;
-	//	default:
-	//		break;
-	//	}
-	//}
+	char c;
+	for (int i = 0; i < options->size; i++)
+	{
+		switch (c = options->data[i])
+		{
+		case 'b':
+			PrintOneByteOctal(data, size, totalSize);
+			break;
+		case 'c':
+			PrintOneByteChar(data, size, totalSize);
+			break;
+		case 'C':
+			PrintCanonical(data, size, totalSize);
+			break;
+		case 'd':
+			PrintTwoBytesDecimal(data, size, totalSize);
+			break;
+		case 'o':
+			PrintTwoBytesOctal(data, size, totalSize);
+			break;
+		case 'x':
+			PrintTwoBytesHex(data, size, totalSize);
+			break;
+		default:
+			break;
+		}
+	}
 	if (options->size == 0)
 		PrintNormal(data, size, totalSize);
 }

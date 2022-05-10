@@ -9,7 +9,7 @@
 
 int DumpHexStdin(optvec* options)
 {
-	char readBuf[BUFFER_SIZE] = { 0, };
+	uchar readBuf[BUFFER_SIZE] = { 0, };
 	char tmp;
 	int size = 0;
 	int totalSize = 0;
@@ -34,7 +34,7 @@ int DumpHexStdin(optvec* options)
 		return (EXIT_FAILURE);
 	else
 	{
-		PrintLine(options, readBuf, size, totalSize + (16 - size));
+		PrintLine(options, (uchar*)readBuf, size, totalSize + (16 - size));
 		PrintIndex(totalSize + 16);
 		write(1, "\n", 1);
 		return (EXIT_SUCCESS);
