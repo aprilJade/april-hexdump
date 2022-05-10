@@ -86,7 +86,7 @@ void PrintIntinHex(int number, const char *hex)
 		write(1, &hex[number % 16], 1);
 }
 
-void PrintOneByteInHex(char data)
+void PrintOneByteInHex(uchar data)
 {
 	char* hex = "0123456789abcedf";
 	write(1, &hex[data / 16], 1);
@@ -126,7 +126,7 @@ void PrintIndex(int size)
 		PrintIntinHex(size, hex);
 }
 
-void PrintNormal(char* data, int size, int totalSize)
+void PrintNormal(uchar* data, int size, int totalSize)
 {
 	PrintIndex(totalSize);
 	for (int i = 0; i < 16 && i < size; i += 2)
@@ -150,7 +150,7 @@ void PrintOneByteOctal(char* data, int size, int totalSize)
 	write(1, "\n", 1);
 }
 
-bool isPrintable(unsigned char c)
+bool isPrintable(uchar c)
 {
 	if (c < 32 || c > 126)
 		return (false);
@@ -191,9 +191,33 @@ void PrintOneByteChar(uchar* data, int size, int totalSize)
 			}
 		}
 	}
+	write(1, "\n", 1);
 }
 
-void PrintCanonical(char* data, int size, int totalSize);
+void PrintCanonical(uchar* data, int size, int totalSize)
+{
+	PrintIndex(totalSize);
+	write(1, " ", 1);
+	for (int i = 0; i < size; i++)
+	{
+		if (i == 8)
+			write(1, " ", 1);
+		write(1, " ", 1);
+		PrintOneByteInHex(*data);
+	}
+	write(1, "                                            ", 49 - size * 3);
+	write(1, "  |", 3);
+	for (int i = 0; i < size; i++)
+	{
+		if (isPrintable(*data))
+			write(1, data, 1);
+		else
+			write(1, ".", 1);
+		data++;
+	}
+	write(1, "|\n", 2);
+}
+
 void PrintTwoBytesDecimal(char* data, int size, int totalSize);
 void PrintTwoBytesOctal(char* data, int size, int totalSize);
 void PrintTwoBytesHex(char* data, int size, int totalSize);
