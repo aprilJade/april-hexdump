@@ -16,12 +16,6 @@ enum e_base
 	HEXADECIMAL = 16
 };
 
-void PrintOneByteInHex(uchar data)
-{
-	write(1, &g_strBase[data / HEXADECIMAL], 1);
-	write(1, &g_strBase[data % HEXADECIMAL], 1);
-}
-
 void PrintIndex(int size)
 {
 	int i = 0;
@@ -38,15 +32,39 @@ void PrintIndex(int size)
 	write(1, buf, INDEX_LEN);
 }
 
+void PrintShortToBase(ushort n, int base)
+{
+	int digit;
+	int i;
+
+	if (base == OCTAL)
+		digit = 6;
+	else if (base == DECIMAL)
+		digit = 5;
+	else if (base == HEXADECIMAL)
+		digit = 4;
+
+	for (i = 0; i < digit; i++)
+		g_nbrBuf[i] = '0';
+	g_nbrBuf[i--] = 0;
+	while (n > 0)
+	{
+		g_nbrBuf[i--] = g_strBase[n % base];
+		n /= base;
+	}
+	write(1, g_nbrBuf, digit);
+}
+
 void PrintNormal(uchar* data, int size, int totalSize)
 {
+	ushort tmp;
 	PrintIndex(totalSize);
-	for (int i = 0; i < BUFFER_SIZE && i < size; i += 2)
+	for (int i = 0; i < size; i += sizeof(short))
 	{
 		write(1, " ", 1);
-		PrintOneByteInHex(*++data);
-		PrintOneByteInHex(*--data);
-		data += 2;
+		memcpy(&tmp, data, sizeof(short));
+		PrintShortToBase(tmp, HEXADECIMAL);
+		data += sizeof(short);
 	}
 	write(1, "\n", 1);
 }
@@ -147,29 +165,6 @@ void PrintCanonical(uchar* data, int size, int totalSize)
 		data++;
 	}
 	write(1, "|\n", 2);
-}
-
-void PrintShortToBase(ushort n, int base)
-{
-	int digit;
-	int i;
-
-	if (base == OCTAL)
-		digit = 6;
-	else if (base == DECIMAL)
-		digit = 5;
-	else if (base == HEXADECIMAL)
-		digit = 4;
-
-	for (i = 0; i < digit; i++)
-		g_nbrBuf[i] = '0';
-	g_nbrBuf[i--] = 0;
-	while (n > 0)
-	{
-		g_nbrBuf[i--] = g_strBase[n % base];
-		n /= base;
-	}
-	write(1, g_nbrBuf, digit);
 }
 
 void PrintTwoBytesDecimal(uchar* data, int size, int totalSize)
