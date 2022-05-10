@@ -7,6 +7,7 @@
 
 void PrintIntinHex(int number, const char *hex)
 {
+	// TODO: remove recursive
 	if (number > 15)
 	{
 		PrintIntinHex(number / 16, hex);
@@ -18,6 +19,7 @@ void PrintIntinHex(int number, const char *hex)
 
 void PrintOneByteInHex(uchar data)
 {
+	// TODO: refactor inefficient literal string
 	char* hex = "0123456789abcedf";
 	write(1, &hex[data / 16], 1);
 	write(1, &hex[data % 16], 1);
@@ -27,6 +29,7 @@ void PrintIndex(int size)
 {
 	int i = 0;
 	int tmp;
+	// TODO: refactor inefficient literal string
 	const char *hex = "0123456789abcdef";
 	size -= 16;
 	tmp = size;
@@ -87,7 +90,6 @@ bool isPrintable(uchar c)
 	return (true);
 }
 
-
 void PrintOneByteChar(uchar* data, int size, int totalSize)
 {
 	PrintIndex(totalSize);
@@ -137,6 +139,7 @@ void PrintCanonical(uchar* data, int size, int totalSize)
 		write(1, " ", 1);
 		PrintOneByteInHex(data[i]);
 	}
+	// TODO: refactor hard coding
 	int remainCnt = 48 - size * 3 + (size < 9 ? 1 : 0);
 	write(1, "                                                 ", remainCnt);
 	write(1, "  |", 3);
@@ -151,6 +154,7 @@ void PrintCanonical(uchar* data, int size, int totalSize)
 	write(1, "|\n", 2);
 }
 
+// TODO: refactor PrintShort series
 void PrintShort(unsigned short n)
 {
 	char buf[6];
@@ -165,20 +169,6 @@ void PrintShort(unsigned short n)
 		n /= 10;
 	}
 	write(1, buf, 5);
-}
-
-void PrintTwoBytesDecimal(uchar* data, int size, int totalSize)
-{
-	unsigned short tmp;
-	PrintIndex(totalSize);
-	for (int i = 0; i < size; i += sizeof(short))
-	{
-		write(1, "   ", 3);
-		memcpy(&tmp, data, sizeof(short));
-		PrintShort(tmp);
-		data += sizeof(short);
-	}
-	write(1, "\n", 1);
 }
 
 void PrintShortInOctal(unsigned short n)
@@ -197,20 +187,6 @@ void PrintShortInOctal(unsigned short n)
 	write(1, buf, 6);
 }
 
-void PrintTwoBytesOctal(uchar* data, int size, int totalSize)
-{
-	unsigned short tmp;
-	PrintIndex(totalSize);
-	for (int i = 0; i < size; i += sizeof(short))
-	{
-		write(1, "  ", 2);
-		memcpy(&tmp, data, sizeof(short));
-		PrintShortInOctal(tmp);
-		data += sizeof(short);
-	}
-	write(1, "\n", 1);
-}
-
 void PrintShortInHex(unsigned short n)
 {
 	char* base = "0123456789abcdef";
@@ -226,6 +202,34 @@ void PrintShortInHex(unsigned short n)
 		n /= 16;
 	}
 	write(1, buf, 5);
+}
+
+void PrintTwoBytesDecimal(uchar* data, int size, int totalSize)
+{
+	unsigned short tmp;
+	PrintIndex(totalSize);
+	for (int i = 0; i < size; i += sizeof(short))
+	{
+		write(1, "   ", 3);
+		memcpy(&tmp, data, sizeof(short));
+		PrintShort(tmp);
+		data += sizeof(short);
+	}
+	write(1, "\n", 1);
+}
+
+void PrintTwoBytesOctal(uchar* data, int size, int totalSize)
+{
+	unsigned short tmp;
+	PrintIndex(totalSize);
+	for (int i = 0; i < size; i += sizeof(short))
+	{
+		write(1, "  ", 2);
+		memcpy(&tmp, data, sizeof(short));
+		PrintShortInOctal(tmp);
+		data += sizeof(short);
+	}
+	write(1, "\n", 1);
 }
 
 void PrintTwoBytesHex(uchar* data, int size, int totalSize)
