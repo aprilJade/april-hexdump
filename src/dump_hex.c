@@ -42,7 +42,10 @@ int DumpHexStdin(optvec* options)
 		size = 0;
 		b_isOverlapped = false;
 		for (int i = 0; i < BUFFER_SIZE; i++)
+		{
 			readBuf[i] = 0;
+			tmpBuf[i] = 0;
+		}
 	}
 
 	if (ret == -1)
@@ -64,9 +67,10 @@ int DumpHexFiles(int fileCnt, char** files, optvec* options, char* procName)
 	int size = 0;
 	int totalSize = 0;
 	int successCnt = 0;
+	bool b_isOverlapped = false;
 	uchar buf[BUFFER_SIZE];
+	uchar tmpBuf[BUFFER_SIZE] = { 0, };
 
-	// TODO: Implement feature - skip overlap
 	for (int i = 0; i < fileCnt; i++)
 	{
 		if ((fd = open(files[i], O_RDONLY)) < 0)
@@ -74,19 +78,31 @@ int DumpHexFiles(int fileCnt, char** files, optvec* options, char* procName)
 			ret = PrintError(files[i], procName);
 			continue;
 		}
+
 		while ((readRet = read(fd, buf + size, BUFFER_SIZE - size)) >= 0)
 		{
 			if (readRet == 0)
 				break;
 			size += readRet;
 			totalSize += readRet;
-			if (size < 16)
+			if (size < BUFFER_SIZE)
 				continue;
+			if (IsOverlapped(tmpBuf, buf) == true)
+			{
+				if (b_isOverlapped == false)
+					write(1, "*\n", 2);
+				b_isOverlapped = true;
+				size = 0;
+				continue;
+			}
 			PrintLine(options, buf, size, totalSize);
+			memcpy(tmpBuf, buf, BUFFER_SIZE);
 			size = 0;
+			b_isOverlapped = false;
 			for (int i = 0; i < BUFFER_SIZE; i++)
 				buf[i] = 0;
 		}
+
 		if (readRet == FAIL_TO_READ)
 			ret = PrintError(files[i], procName);
 		successCnt++;
