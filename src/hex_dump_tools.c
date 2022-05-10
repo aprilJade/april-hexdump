@@ -3,7 +3,7 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <string.h>
-
+#include <stdbool.h>
 void charcat(char *dest, char c)
 {
 	while (*dest)
@@ -74,6 +74,15 @@ void PrintSpaces(int len, int flag)
 		write(1, " ", 1);
 }
 */
+
+bool isEscapeSequence(char c)
+{
+	if (c <= 0x0d && c >= 0x07)
+		return (true);
+	if (c == 0x1b || c == 0x22 || c == 0x27 || c == 0x3f || c == 0x57)
+		return (true);
+	return (false);
+}
 
 void PrintIntinHex(int number, const char *hex)
 {
@@ -150,7 +159,29 @@ void PrintOneByteOctal(char* data, int size, int totalSize)
 	write(1, "\n", 1);
 }
 
-void PrintOneByteChar(char* data, int size, int totalSize);
+void PrintOneByteChar(char* data, int size, int totalSize)
+{
+	PrintIndex(totalSize);
+	for (int i = 0; i < size; i++)
+	{
+		if (isEscapeSequence(*data))
+		{
+			write(1, "   ", 2);
+			switch (*data)
+			{
+				case '\t':
+					write(1, "\\t", 2);
+				case '\n':
+					write(1, "\\n", 2);
+				case '\r':
+					write(1, "\\r", 2);
+				case '\v':
+					write(1, "\\v", 2);
+			}
+		}	
+	}
+}
+
 void PrintCanonical(char* data, int size, int totalSize);
 void PrintTwoBytesDecimal(char* data, int size, int totalSize);
 void PrintTwoBytesOctal(char* data, int size, int totalSize);
