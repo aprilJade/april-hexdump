@@ -93,22 +93,6 @@ void PrintOneByteInHex(uchar data)
 	write(1, &hex[data % 16], 1);
 }
 
-void PrintCtoi(uchar n)
-{
-	unsigned char c;
-	if (n > 9)
-	{
-		PrintCtoi(n / 10);
-		c = n % 10 + '0';
-		write(1, &c, 1);
-	}
-	else
-	{
-		c = n % 10 + '0';
-		write(1, &c, 1);
-	}
-}
-
 void PrintIndex(int size)
 {
 	int i = 0;
@@ -139,13 +123,29 @@ void PrintNormal(uchar* data, int size, int totalSize)
 	write(1, "\n", 1);
 }
 
+void PrintCharInOctal(uchar n)
+{
+	char buf[4];
+	int i;
+
+	for (i = 0; i < 3; i++)
+		buf[i] = '0';
+	buf[i--] = 0;
+	while (n > 0)
+	{
+		buf[i--] = (n % 8) + '0';
+		n /= 8;
+	}
+	write(1, buf, 3);
+}
+
 void PrintOneByteOctal(uchar* data, int size, int totalSize)
 {
 	PrintIndex(totalSize);
 	for (int i = 0; i < size; i++)
 	{
 		write(1, " ", 1);
-		PrintCtoi((unsigned char)*data++);
+		PrintCharInOctal(*data++);
 	}
 	write(1, "\n", 1);
 }
@@ -156,6 +156,7 @@ bool isPrintable(uchar c)
 		return (false);
 	return (true);
 }
+
 
 void PrintOneByteChar(uchar* data, int size, int totalSize)
 {
@@ -187,7 +188,7 @@ void PrintOneByteChar(uchar* data, int size, int totalSize)
 					tmp /= 10;
 				}
 				write(1, "000", 3 - digit);
-				PrintCtoi(*data);
+				PrintCharInOctal(*data);
 			}
 		}
 		data++;
@@ -260,7 +261,7 @@ void PrintShortInOctal(unsigned short n)
 	while (n > 0)
 	{
 		buf[i--] = (n % 8) + '0';
-		n /= 10;
+		n /= 8;
 	}
 	write(1, buf, 6);
 }
