@@ -16,6 +16,28 @@ enum e_base
 	HEXADECIMAL = 16
 };
 
+void PrintOneByteInHex(uchar data)
+{
+	write(1, &g_strBase[data / HEXADECIMAL], 1);
+	write(1, &g_strBase[data % HEXADECIMAL], 1);
+}
+
+void PrintCharInOctal(uchar n)
+{
+	char buf[4];
+	int i;
+
+	for (i = 0; i < 3; i++)
+		buf[i] = '0';
+	buf[i--] = 0;
+	while (n > 0)
+	{
+		buf[i--] = (n % 8) + '0';
+		n /= 8;
+	}
+	write(1, buf, 3);
+}
+
 void PrintIndex(int size)
 {
 	int i = 0;
@@ -36,7 +58,7 @@ void PrintShortToBase(ushort n, int base)
 {
 	int digit;
 	int i;
-
+	
 	if (base == OCTAL)
 		digit = 6;
 	else if (base == DECIMAL)
@@ -55,10 +77,9 @@ void PrintShortToBase(ushort n, int base)
 	write(1, g_nbrBuf, digit);
 }
 
-void PrintNormal(uchar* data, int size, int totalSize)
+void PrintNormal(uchar* data, int size)
 {
 	ushort tmp;
-	PrintIndex(totalSize);
 	for (int i = 0; i < size; i += sizeof(short))
 	{
 		write(1, " ", 1);
@@ -69,25 +90,9 @@ void PrintNormal(uchar* data, int size, int totalSize)
 	write(1, "\n", 1);
 }
 
-void PrintCharInOctal(uchar n)
-{
-	char buf[4];
-	int i;
 
-	for (i = 0; i < 3; i++)
-		buf[i] = '0';
-	buf[i--] = 0;
-	while (n > 0)
-	{
-		buf[i--] = (n % 8) + '0';
-		n /= 8;
-	}
-	write(1, buf, 3);
-}
-
-void PrintOneByteOctal(uchar* data, int size, int totalSize)
+void PrintOneByteOctal(uchar* data, int size)
 {
-	PrintIndex(totalSize);
 	for (int i = 0; i < size; i++)
 	{
 		write(1, " ", 1);
@@ -103,9 +108,8 @@ bool isPrintable(uchar c)
 	return true;
 }
 
-void PrintOneByteChar(uchar* data, int size, int totalSize)
+void PrintOneByteChar(uchar* data, int size)
 {
-	PrintIndex(totalSize);
 	char buf[6][3] = {"\\0", "\\t", "\\n", "\\v", "\\f", "\\r"};
 	uchar tmp;
 	for (int i = 0; i < size; i++)
@@ -141,9 +145,8 @@ void PrintOneByteChar(uchar* data, int size, int totalSize)
 	write(1, "\n", 1);
 }
 
-void PrintCanonical(uchar* data, int size, int totalSize)
+void PrintCanonical(uchar* data, int size)
 {
-	PrintIndex(totalSize);
 	write(1, " ", 1);
 	for (int i = 0; i < size; i++)
 	{
@@ -167,10 +170,9 @@ void PrintCanonical(uchar* data, int size, int totalSize)
 	write(1, "|\n", 2);
 }
 
-void PrintTwoBytesDecimal(uchar* data, int size, int totalSize)
+void PrintTwoBytesDecimal(uchar* data, int size)
 {
 	ushort tmp;
-	PrintIndex(totalSize);
 	for (int i = 0; i < size; i += sizeof(short))
 	{
 		write(1, "   ", 3);
@@ -181,10 +183,9 @@ void PrintTwoBytesDecimal(uchar* data, int size, int totalSize)
 	write(1, "\n", 1);
 }
 
-void PrintTwoBytesOctal(uchar* data, int size, int totalSize)
+void PrintTwoBytesOctal(uchar* data, int size)
 {
 	ushort tmp;
-	PrintIndex(totalSize);
 	for (int i = 0; i < size; i += sizeof(short))
 	{
 		write(1, "  ", 2);
@@ -195,10 +196,9 @@ void PrintTwoBytesOctal(uchar* data, int size, int totalSize)
 	write(1, "\n", 1);
 }
 
-void PrintTwoBytesHex(uchar* data, int size, int totalSize)
+void PrintTwoBytesHex(uchar* data, int size)
 {
 	ushort tmp;
-	PrintIndex(totalSize);
 	for (int i = 0; i < size; i += sizeof(short))
 	{
 		write(1, "    ", 4);
@@ -213,30 +213,35 @@ void PrintLine(optvec* options, uchar* data, int size, int totalSize)
 {
 	for (int i = 0; i < options->size; i++)
 	{
+		PrintIndex(totalSize);
 		switch (options->data[i])
 		{
 		case 'b':
-			PrintOneByteOctal(data, size, totalSize);
+			PrintOneByteOctal(data, size);
 			break;
 		case 'c':
-			PrintOneByteChar(data, size, totalSize);
+			PrintOneByteChar(data, size);
 			break;
 		case 'C':
-			PrintCanonical(data, size, totalSize);
+			PrintCanonical(data, size);
 			break;
 		case 'd':
-			PrintTwoBytesDecimal(data, size, totalSize);
+			PrintTwoBytesDecimal(data, size);
 			break;
 		case 'o':
-			PrintTwoBytesOctal(data, size, totalSize);
+			PrintTwoBytesOctal(data, size);
 			break;
 		case 'x':
-			PrintTwoBytesHex(data, size, totalSize);
+			PrintTwoBytesHex(data, size);
 			break;
 		default:
 			break;
 		}
 	}
+
 	if (options->size == 0)
-		PrintNormal(data, size, totalSize);
+	{
+		PrintIndex(totalSize);
+		PrintNormal(data, size);
+	}
 }
