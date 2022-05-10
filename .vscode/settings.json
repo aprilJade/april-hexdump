@@ -1,7 +1,0 @@
-{
-    "files.associations": {
-        "hex_dump_tools.h": "c",
-        "general.h": "c",
-        "error_msg.h": "c"
-    }
-}
