@@ -1,9 +1,9 @@
-#include "../includes/hex_dump_tools.h"
-#include "../includes/error_msg.h"
 #include <unistd.h>
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
+#include "../includes/hex_dump_tools.h"
+#include "../includes/error_msg.h"
 
 static const char* g_strBase = "0123456789abcdef";
 static char g_nbrBuf[7];
