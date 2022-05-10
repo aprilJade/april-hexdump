@@ -248,7 +248,35 @@ void PrintTwoBytesDecimal(char* data, int size, int totalSize)
 	write(1, "\n", 1);
 }
 
-void PrintTwoBytesOctal(char* data, int size, int totalSize);
+void PrintShortInOctal(unsigned short n)
+{
+	char buf[7];
+	int i;
+
+	for (i = 0; i < 6; i++)
+		buf[i] = '0';
+	buf[i--] = 0;
+	while (n > 0)
+	{
+		buf[i--] = (n % 8) + '0';
+		n /= 10;
+	}
+	write(1, buf, 6);
+}
+
+void PrintTwoBytesOctal(char* data, int size, int totalSize)
+{
+	unsigned short tmp;
+	PrintIndex(totalSize);
+	for (int i = 0; i < size; i++)
+	{
+		write(1, "  ", 2);
+		memset(&tmp, data, sizeof(short));
+		PrintShortInOctal(tmp);
+		data += sizeof(short);
+	}
+	write(1, "\n", 1);
+}
 void PrintTwoBytesHex(char* data, int size, int totalSize);
 void PrintTotalSizeInHex(int totalSize);
 
