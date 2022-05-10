@@ -205,9 +205,10 @@ void PrintCanonical(uchar* data, int size, int totalSize)
 		if (i == 8)
 			write(1, " ", 1);
 		write(1, " ", 1);
-		PrintOneByteInHex(*data);
+		PrintOneByteInHex(data[i]);
 	}
-	write(1, "                                            ", 49 - size * 3);
+	int remainCnt = 48 - size * 3 + (size < 9 ? 1 : 0);
+	write(1, "                                                 ", remainCnt);
 	write(1, "  |", 3);
 	for (int i = 0; i < size; i++)
 	{
