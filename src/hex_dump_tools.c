@@ -93,12 +93,12 @@ void PrintOneByteInHex(uchar data)
 	write(1, &hex[data % 16], 1);
 }
 
-void PrintNumber(unsigned char n)
+void PrintCtoi(uchar n)
 {
 	unsigned char c;
 	if (n > 9)
 	{
-		PrintNumber(n / 10);
+		PrintCtoi(n / 10);
 		c = n % 10 + '0';
 		write(1, &c, 1);
 	}
@@ -145,7 +145,7 @@ void PrintOneByteOctal(char* data, int size, int totalSize)
 	for (int i = 0; i < size; i++)
 	{
 		write(1, " ", 1);
-		PrintNumber((unsigned char)*data++);
+		PrintCtoi((unsigned char)*data++);
 	}
 	write(1, "\n", 1);
 }
@@ -187,7 +187,7 @@ void PrintOneByteChar(uchar* data, int size, int totalSize)
 					tmp /= 10;
 				}
 				write(1, "000", 3 - digit);
-				PrintNumber(*data);
+				PrintCtoi(*data);
 			}
 		}
 	}
@@ -218,7 +218,36 @@ void PrintCanonical(uchar* data, int size, int totalSize)
 	write(1, "|\n", 2);
 }
 
-void PrintTwoBytesDecimal(char* data, int size, int totalSize);
+void PrintShort(unsigned short n)
+{
+	char buf[6];
+	int i;
+
+	for (i = 0; i < 5; i++)
+		buf[i] = '0';
+	buf[i--] = 0;
+	while (n > 0)
+	{
+		buf[i--] = (n % 10) + '0';
+		n /= 10;
+	}
+	write(1, buf, 5);
+}
+
+void PrintTwoBytesDecimal(char* data, int size, int totalSize)
+{
+	unsigned short tmp;
+	PrintIndex(totalSize);
+	for (int i = 0; i < size; i++)
+	{
+		write(1, "   ", 3);
+		memset(&tmp, data, sizeof(short));
+		PrintShort(tmp);
+		data += sizeof(short);
+	}
+	write(1, "\n", 1);
+}
+
 void PrintTwoBytesOctal(char* data, int size, int totalSize);
 void PrintTwoBytesHex(char* data, int size, int totalSize);
 void PrintTotalSizeInHex(int totalSize);
