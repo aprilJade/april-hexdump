@@ -1,4 +1,4 @@
-NAME	=	april_hexdump
+NAME	=	april-hexdump
 
 CC		=	gcc
 
