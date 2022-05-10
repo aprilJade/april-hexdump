@@ -75,15 +75,6 @@ void PrintSpaces(int len, int flag)
 }
 */
 
-bool isEscapeSequence(char c)
-{
-	if (c <= 0x0d && c >= 0x07)
-		return (true);
-	if (c == 0x1b || c == 0x22 || c == 0x27 || c == 0x3f || c == 0x57)
-		return (true);
-	return (false);
-}
-
 void PrintIntinHex(int number, const char *hex)
 {
 	if (number > 15)
@@ -159,26 +150,46 @@ void PrintOneByteOctal(char* data, int size, int totalSize)
 	write(1, "\n", 1);
 }
 
-void PrintOneByteChar(char* data, int size, int totalSize)
+bool isPrintable(unsigned char c)
+{
+	if (c < 32 || c > 126)
+		return (false);
+	return (true);
+}
+
+void PrintOneByteChar(uchar* data, int size, int totalSize)
 {
 	PrintIndex(totalSize);
+	char buf[6] = {"\\0", "\\t", "\\n", "\\v", "\\f", "\\r"};
+	uchar tmp;
 	for (int i = 0; i < size; i++)
 	{
-		if (isEscapeSequence(*data))
+		if (isPrintable(*data))
 		{
-			write(1, "   ", 2);
-			switch (*data)
+			write(1, "   ", 3);
+			write(1, data, 1);
+		}
+		else
+		{
+			if ((*data >= 9 && *data <= 13) || *data == 0)
 			{
-				case '\t':
-					write(1, "\\t", 2);
-				case '\n':
-					write(1, "\\n", 2);
-				case '\r':
-					write(1, "\\r", 2);
-				case '\v':
-					write(1, "\\v", 2);
+				write(1, "  ", 2);
+				write(1, &buf[*data % 8], 2);
 			}
-		}	
+			else 
+			{
+				write(1, " ", 1);
+				tmp = *data;
+				int digit = 0;
+				while (tmp > 0)
+				{
+					digit++;
+					tmp /= 10;
+				}
+				write(1, "000", 3 - digit);
+				PrintNumber(*data);
+			}
+		}
 	}
 }
 
