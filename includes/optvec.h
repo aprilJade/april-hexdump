@@ -1,5 +1,6 @@
 #ifndef OPTVEC_H
 #define OPTVEC_H
+
 #include "../includes/general.h"
 #define OPTION_COUNT    8
 

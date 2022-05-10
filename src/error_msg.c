@@ -4,6 +4,7 @@
 #include <libgen.h>
 #include <stdlib.h>
 #include "../includes/error_msg.h"
+#include "../includes/general.h"
 
 void PrintString(char *str)
 {
@@ -11,9 +12,9 @@ void PrintString(char *str)
 		write(1, str++, 1);
 }
 
-int PrintError(char *file_path, char* processName)
+int PrintError(char *file_path, char* procName)
 {
-	PrintString(processName);
+	PrintString(procName);
 	PrintString(": ");
 	PrintString(basename(file_path));
 	PrintString(": ");
@@ -22,9 +23,9 @@ int PrintError(char *file_path, char* processName)
 	return EXIT_FAILURE;
 }
 
-int	PrintOptError(char opt, char* processName)
+int	PrintOptError(char opt, char* procName)
 {
-	PrintString(basename(processName));
+	PrintString(basename(procName));
 	PrintString(": ");
 	PrintString("invalid option -- \'");
 	PrintString(&opt);

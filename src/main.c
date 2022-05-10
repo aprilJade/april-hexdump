@@ -11,7 +11,6 @@
 int main(int argc, char** argv)
 {
 	char c;
-	
 	optvec* options = (optvec*)malloc(sizeof(optvec));
 	InitOptvec(options);
 	
@@ -34,28 +33,23 @@ int main(int argc, char** argv)
 			filesCnt++;
 	}
 	
-	if (filesCnt != 0)
-	{
-		write(1, "Sorry!! not implement yet hexdump for file input\n", 49);
-		write(1, "Please use april hexdump with stdin only\n", 41);
-		free(options);
-		return EXIT_FAILURE;
-	}
-
 	char** files;
+	int idx = 0;
 	if (filesCnt != 0)
 	{
 		files = (char**)malloc(sizeof(char*) * filesCnt);
 		for (int i = 1; i < argc; i++)
-			*files++ = argv[i];
-		*files -= filesCnt;
+		{
+			if (argv[i][0] != '-')
+				files[idx++] = argv[i];
+		}
 	}
 	
 	int ret = 0;
 	if (filesCnt == 0)
 		ret = DumpHexStdin(options);
-	//else
-	//	ret = DumpHexFiles(filesCnt, files, options);
+	else
+		ret = DumpHexFiles(filesCnt, files, options, argv[0]);
 	if (filesCnt != 0)
 		free(files);
 	free(options);
