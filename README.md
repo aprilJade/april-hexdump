@@ -1,5 +1,4 @@
 # april hexdump
----
 ## Intro
 This repository is an implementation of hexdump in util-linux version 2.37.2. Hexdump is printer file contents or user input in hexadecimal, decimal, octal, or ASCII!! In the future, I will improve the inconvenience or add functions that are not in the existing hexdump.
 
