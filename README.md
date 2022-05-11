@@ -53,14 +53,14 @@ make
   - When input file is not exist
   - When input invalid option
   - When fail to read files
+- General
+  - Option -h: Print detailed instruction
 
 ## Todo
 - Implement
   - Skip overlapped line
   - Option -n \<length>\: Print only length bytes of input
   - Option -s \<offset>\: Skip offset bytes from the beginning
-  - Option -h: Print detailed instruction
   - Option -V: Print version of program
-  - Double dash options (ex: --version, --help, ...)
 - Beautify README for readability
 - To choose whether the document's language is English or Korean
