@@ -10,11 +10,19 @@
 #include "../includes/general.h"
 #include "../includes/func_vec.h"
 
+void PrintHelp()
+{
+	int fd = open("help.txt", O_RDONLY);
+	int ret;
+	char buf[64] = { 0, };
+	while ((ret = read(fd, buf, 64)) > 0)
+		write(1, buf, ret);
+	write(1, "\n", 1);
+	close(fd);
+}
+
 int main(int argc, char** argv)
 {
-	char c;
-	funcVec* printFunctions = (funcVec*)malloc(sizeof(funcVec));
-	InitFuncVec(printFunctions);
 	static struct option longOptions[] =
 	{
 		{"one-byte-octal",		no_argument, 0, 'b'},
@@ -23,9 +31,14 @@ int main(int argc, char** argv)
 		{"two-bytes-decimal",	no_argument, 0, 'd'},
 		{"two-bytes-octal",		no_argument, 0, 'o'},
 		{"two-bytes-hex",		no_argument, 0, 'x'},
+		{"help",				no_argument, 0, 'h'},
 		{0, 0, 0, 0} 
 	};
-	while ((c = getopt_long(argc, argv, "bcCdox", longOptions, 0)) > 0)
+	char c;
+	funcVec* printFunctions = (funcVec*)malloc(sizeof(funcVec));
+	InitFuncVec(printFunctions);
+	
+	while ((c = getopt_long(argc, argv, "bcCdoxh", longOptions, 0)) > 0)
 	{
 		switch (c)
 		{
@@ -47,6 +60,10 @@ int main(int argc, char** argv)
 		case 'x':
 			Insert(PrintTwoBytesHex, printFunctions);
 			break;
+		case 'h':
+			PrintHelp();
+			free(printFunctions);
+			return (EXIT_SUCCESS);
 		default:
 			PrintOptError(c, argv[0]);
 			free(printFunctions);

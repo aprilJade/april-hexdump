@@ -1,0 +1,14 @@
+
+Usage:
+ ./april-hexdump [options] <file>...
+
+Display file contents in hexadecimal, decimal, octal, or ascii.
+
+Options:
+ -b, --one-byte-octal       one-byte octal display
+ -c, --one-byte-char        one-byte character display
+ -C, --canonical            canonical hex+ASCII display
+ -d, --two-bytes-decimal    two-bytes decimal display
+ -o, --two-bytes-octal      two-bytes octal display
+ -x, --two-bytes-hex        two-bytes hexadecimal display
+ -h, --help                 display this help
