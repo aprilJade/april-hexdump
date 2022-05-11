@@ -58,9 +58,6 @@ make
 
 ## Todo
 - Implement
-  - Skip overlapped line
   - Option -n \<length>\: Print only length bytes of input
   - Option -s \<offset>\: Skip offset bytes from the beginning
-  - Option -V: Print version of program
 - Beautify README for readability
-- To choose whether the document's language is English or Korean
