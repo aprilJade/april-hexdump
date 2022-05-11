@@ -12,7 +12,7 @@ bool IsOverlapped(uchar* s1, uchar* s2)
 	return memcmp(s1, s2, BUFFER_SIZE) == 0 ? true : false;
 }
 
-int DumpHexStdin(optvec* options)
+int DumpHexStdin(funcVec* options)
 {
 	uchar readBuf[BUFFER_SIZE] = { 0, };
 	uchar tmpBuf[BUFFER_SIZE] = { 0, };
@@ -48,7 +48,7 @@ int DumpHexStdin(optvec* options)
 		}
 	}
 
-	if (ret == -1)
+	if (ret == FAIL_TO_READ)
 		return EXIT_FAILURE;
 	else
 	{
@@ -59,7 +59,7 @@ int DumpHexStdin(optvec* options)
 	}
 }
 
-int DumpHexFiles(int fileCnt, char** files, optvec* options, char* procName)
+int DumpHexFiles(int fileCnt, char** files, funcVec* options, char* procName)
 {
 	int fd = 0;
 	int ret = EXIT_SUCCESS;

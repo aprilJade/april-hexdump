@@ -7,12 +7,12 @@
 #include "../includes/hex_dump_tools.h"
 #include "../includes/error_msg.h"
 #include "../includes/general.h"
-#include "../includes/optvec.h"
+#include "../includes/func_vec.h"
 
 int main(int argc, char** argv)
 {
 	char c;
-	optvec* options = (optvec*)malloc(sizeof(optvec));
+	funcVec* options = (funcVec*)malloc(sizeof(funcVec));
 	InitOptvec(options);
 	
 	while ((c = getopt(argc, argv, "bcCdox")) > 0)

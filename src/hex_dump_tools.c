@@ -209,7 +209,7 @@ void PrintTwoBytesHex(uchar* data, int size)
 	write(1, "\n", 1);
 }
 
-void PrintLine(optvec* options, uchar* data, int size, int totalSize)
+void PrintLine(funcVec* options, uchar* data, int size, int totalSize)
 {
 	void (*func)(uchar*, int);
 	for (int i = 0; i < options->size; i++)

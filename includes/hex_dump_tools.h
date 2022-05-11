@@ -1,10 +1,10 @@
 #ifndef HEX_DUMP_TOOLS_H
 #define HEX_DUMP_TOOLS_H
 #include "../includes/general.h"
-#include "../includes/optvec.h"
+#include "../includes/func_vec.h"
 
 void PrintIndex(int size);
-void PrintLine(optvec* options, uchar* data, int size, int totalSize);
+void PrintLine(funcVec* options, uchar* data, int size, int totalSize);
 
 void PrintOneByteOctal(uchar* data, int size);
 void PrintOneByteChar(uchar* data, int size);
