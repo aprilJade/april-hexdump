@@ -3,6 +3,6 @@
 #include "../includes/func_vec.h"
 
 int DumpHexStdin(funcVec* options);
-int DumpHexFiles(int fileCnt, char** files, funcVec* options, char* procName);
+int DumpHexFiles(int fileCnt, char** files, funcVec* functions, char* procName);
 
 #endif

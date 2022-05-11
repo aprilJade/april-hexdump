@@ -1,6 +1,6 @@
 #include "../includes/func_vec.h"
 
-void InitOptvec(funcVec* vec)
+void InitFuncVec(funcVec* vec)
 {
     vec->size = 0;
     for (int i = 0; i < OPTION_COUNT; i++)

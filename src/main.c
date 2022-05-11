@@ -12,34 +12,34 @@
 int main(int argc, char** argv)
 {
 	char c;
-	funcVec* options = (funcVec*)malloc(sizeof(funcVec));
-	InitOptvec(options);
+	funcVec* printFunctions = (funcVec*)malloc(sizeof(funcVec));
+	InitFuncVec(printFunctions);
 	
 	while ((c = getopt(argc, argv, "bcCdox")) > 0)
 	{
 		switch (c)
 		{
 		case 'b':
-			Insert(PrintOneByteOctal, options);
+			Insert(PrintOneByteOctal, printFunctions);
 			break;
 		case 'c':
-			Insert(PrintOneByteChar, options);
+			Insert(PrintOneByteChar, printFunctions);
 			break;
 		case 'C':
-			Insert(PrintCanonical, options);
+			Insert(PrintCanonical, printFunctions);
 			break;
 		case 'd':
-			Insert(PrintTwoBytesDecimal, options);
+			Insert(PrintTwoBytesDecimal, printFunctions);
 			break;
 		case 'o':
-			Insert(PrintTwoBytesOctal, options);
+			Insert(PrintTwoBytesOctal, printFunctions);
 			break;
 		case 'x':
-			Insert(PrintTwoBytesHex, options);
+			Insert(PrintTwoBytesHex, printFunctions);
 			break;
 		default:
 			PrintOptError(c, argv[0]);
-			free(options);
+			free(printFunctions);
 			return EXIT_FAILURE;
 		}
 	}
@@ -65,11 +65,11 @@ int main(int argc, char** argv)
 	
 	int ret = 0;
 	if (filesCnt == 0)
-		ret = DumpHexStdin(options);
+		ret = DumpHexStdin(printFunctions);
 	else
-		ret = DumpHexFiles(filesCnt, files, options, argv[0]);
+		ret = DumpHexFiles(filesCnt, files, printFunctions, argv[0]);
 	if (filesCnt != 0)
 		free(files);
-	free(options);
+	free(printFunctions);
 	return ret;
 }

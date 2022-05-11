@@ -12,7 +12,7 @@ bool IsOverlapped(uchar* s1, uchar* s2)
 	return memcmp(s1, s2, BUFFER_SIZE) == 0 ? true : false;
 }
 
-int DumpHexStdin(funcVec* options)
+int DumpHexStdin(funcVec* functions)
 {
 	uchar readBuf[BUFFER_SIZE] = { 0, };
 	uchar tmpBuf[BUFFER_SIZE] = { 0, };
@@ -37,7 +37,7 @@ int DumpHexStdin(funcVec* options)
 			size = 0;
 			continue;
 		}
-		PrintLine(options, readBuf, size, totalSize);
+		PrintLine(functions, readBuf, size, totalSize);
 		memcpy(tmpBuf, readBuf, BUFFER_SIZE);
 		size = 0;
 		b_isOverlapped = false;
@@ -52,14 +52,14 @@ int DumpHexStdin(funcVec* options)
 		return EXIT_FAILURE;
 	else
 	{
-		PrintLine(options, readBuf, size, totalSize + (16 - size));
+		PrintLine(functions, readBuf, size, totalSize + (16 - size));
 		PrintIndex(totalSize + 16);
 		write(1, "\n", 1);
 		return EXIT_SUCCESS;
 	}
 }
 
-int DumpHexFiles(int fileCnt, char** files, funcVec* options, char* procName)
+int DumpHexFiles(int fileCnt, char** files, funcVec* functions, char* procName)
 {
 	int fd = 0;
 	int ret = EXIT_SUCCESS;
@@ -95,7 +95,7 @@ int DumpHexFiles(int fileCnt, char** files, funcVec* options, char* procName)
 				size = 0;
 				continue;
 			}
-			PrintLine(options, buf, size, totalSize);
+			PrintLine(functions, buf, size, totalSize);
 			memcpy(tmpBuf, buf, BUFFER_SIZE);
 			size = 0;
 			b_isOverlapped = false;
@@ -112,7 +112,7 @@ int DumpHexFiles(int fileCnt, char** files, funcVec* options, char* procName)
 		return PrintFailAllArg(procName);
 
 	if (size != 0)
-		PrintLine(options, buf, size, totalSize + (16 - size));
+		PrintLine(functions, buf, size, totalSize + (16 - size));
 	PrintIndex(totalSize + 16);
 	write(1, "\n", 1);
 

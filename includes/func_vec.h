@@ -9,7 +9,7 @@ typedef struct funcVec
     int size;
 } funcVec;
 
-void InitOptvec(funcVec* vec);
+void InitFuncVec(funcVec* vec);
 int Insert(void (*fuction)(unsigned char*, int), funcVec* vec);
 
 #endif
