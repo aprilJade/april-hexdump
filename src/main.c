@@ -3,6 +3,7 @@
 #include <string.h>
 #include <stdbool.h>
 #include <stdlib.h>
+#include <getopt.h>
 #include "../includes/dump_hex.h"
 #include "../includes/hex_dump_tools.h"
 #include "../includes/error_msg.h"
@@ -14,8 +15,17 @@ int main(int argc, char** argv)
 	char c;
 	funcVec* printFunctions = (funcVec*)malloc(sizeof(funcVec));
 	InitFuncVec(printFunctions);
-	
-	while ((c = getopt(argc, argv, "bcCdox")) > 0)
+	static struct option longOptions[] =
+	{
+		{"one-byte-octal",		no_argument, 0, 'b'},
+		{"one-byte-char",		no_argument, 0, 'c'},
+		{"canonical",			no_argument, 0, 'C'},
+		{"two-bytes-decimal",	no_argument, 0, 'd'},
+		{"two-bytes-octal",		no_argument, 0, 'o'},
+		{"two-bytes-hex",		no_argument, 0, 'x'},
+		{0, 0, 0, 0} 
+	};
+	while ((c = getopt_long(argc, argv, "bcCdox", longOptions, 0)) > 0)
 	{
 		switch (c)
 		{
