@@ -12,7 +12,7 @@
 
 void PrintHelp()
 {
-	int fd = open("help.txt", O_RDONLY);
+	int fd = open("docs/help.txt", O_RDONLY);
 	int ret;
 	char buf[64] = { 0, };
 	while ((ret = read(fd, buf, 64)) > 0)
