@@ -5,7 +5,7 @@ This repository is an implementation of hexdump in util-linux version 2.37.2. He
 ## Dependency
 - make
 ```
-sudo apt install make - y
+sudo apt install make -y
 ```
 
 - gcc
