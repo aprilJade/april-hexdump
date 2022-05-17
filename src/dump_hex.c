@@ -9,7 +9,7 @@
 
 bool IsOverlapped(uchar* s1, uchar* s2)
 {
-	return memcmp(s1, s2, BUFFER_SIZE) == 0 ? true : false;
+	return memcmp(s1, s2, BUFFER_SIZE) == 0;
 }
 
 int DumpHexStdin(funcVec* functions)
