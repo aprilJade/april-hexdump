@@ -25,19 +25,19 @@ int main(int argc, char** argv)
 {
 	static struct option longOptions[] =
 	{
-		{"one-byte-octal",		no_argument, 0, 'b'},
-		{"one-byte-char",		no_argument, 0, 'c'},
-		{"canonical",			no_argument, 0, 'C'},
-		{"two-bytes-decimal",	no_argument, 0, 'd'},
-		{"two-bytes-octal",		no_argument, 0, 'o'},
-		{"two-bytes-hex",		no_argument, 0, 'x'},
-		{"help",				no_argument, 0, 'h'},
+		{"one-byte-octal", no_argument, 0, 'b'},
+		{"one-byte-char", no_argument, 0, 'c'},
+		{"canonical", no_argument, 0, 'C'},
+		{"two-bytes-decimal", no_argument, 0, 'd'},
+		{"two-bytes-octal", no_argument, 0, 'o'},
+		{"two-bytes-hex", no_argument, 0, 'x'},
+		{"help", no_argument, 0, 'h'},
 		{0, 0, 0, 0} 
 	};
 	char c;
 	funcVec* printFunctions = (funcVec*)malloc(sizeof(funcVec));
 	InitFuncVec(printFunctions);
-	
+	char* skipOffset = 0;
 	while ((c = getopt_long(argc, argv, "bcCdoxh", longOptions, 0)) > 0)
 	{
 		switch (c)
