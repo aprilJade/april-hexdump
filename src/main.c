@@ -37,7 +37,7 @@ int main(int argc, char** argv)
 	char c;
 	funcVec* printFunctions = (funcVec*)malloc(sizeof(funcVec));
 	InitFuncVec(printFunctions);
-	char* skipOffset = 0;
+	
 	while ((c = getopt_long(argc, argv, "bcCdoxh", longOptions, 0)) > 0)
 	{
 		switch (c)
