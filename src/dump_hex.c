@@ -21,9 +21,15 @@ int DumpHexStdin(funcVec* functions)
 	int ret = 0;
 	bool b_isOverlapped = false;
 
+	if (functions->skipOffset != 0)
+	{
+		//	Todo: Implement print error
+		return EXIT_FAILURE;
+	}
+
 	while ((ret = read(0, readBuf + size, BUFFER_SIZE - size)) >= 0)
 	{
-		if (ret == 0)
+		if (ret == 0 || (functions->lenOffset != 0 && totalSize > functions->lenOffset))
 			break;
 		size += ret;
 		totalSize += ret;
@@ -47,6 +53,9 @@ int DumpHexStdin(funcVec* functions)
 			tmpBuf[i] = 0;
 		}
 	}
+
+	if (functions->lenOffset > 0)
+		totalSize = functions->lenOffset;
 
 	if (ret == FAIL_TO_READ)
 		return EXIT_FAILURE;
