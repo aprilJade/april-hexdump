@@ -7,6 +7,8 @@ typedef struct funcVec
 {
     void* data[OPTION_COUNT];
     int size;
+    int skipOffset;
+    int lenOffset;
 } funcVec;
 
 void InitFuncVec(funcVec* vec);

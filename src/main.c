@@ -31,14 +31,17 @@ int main(int argc, char** argv)
 		{"two-bytes-decimal", no_argument, 0, 'd'},
 		{"two-bytes-octal", no_argument, 0, 'o'},
 		{"two-bytes-hex", no_argument, 0, 'x'},
+		{"skip", required_argument, 0, 's'},
+		{"length", required_argument, 0, 'n'},
 		{"help", no_argument, 0, 'h'},
 		{0, 0, 0, 0} 
 	};
 	char c;
+	int nOptarg = 0;
 	funcVec* printFunctions = (funcVec*)malloc(sizeof(funcVec));
 	InitFuncVec(printFunctions);
 	
-	while ((c = getopt_long(argc, argv, "bcCdoxh", longOptions, 0)) > 0)
+	while ((c = getopt_long(argc, argv, "bcCdoxhs:n:", longOptions, 0)) > 0)
 	{
 		switch (c)
 		{
@@ -59,6 +62,12 @@ int main(int argc, char** argv)
 			break;
 		case 'x':
 			Insert(PrintTwoBytesHex, printFunctions);
+			break;
+		case 's':	// Todo: Check option argument's validation
+			printFunctions->skipOffset = atoi(optarg);
+			break;
+		case 'n':	// Todo: Check option argument's validation
+			printFunctions->lenOffset = atoi(optarg);
 			break;
 		case 'h':
 			PrintHelp();
