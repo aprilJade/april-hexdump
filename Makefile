@@ -34,9 +34,14 @@ ifeq ($(OS), Windows_NT)
 	FCLEAN = del -Force .\$(TARGET).exe
 endif
 
+ifeq (, $(wildcard $(OBJ_DIR)))
+$(info ./obj does not exist. I'll make ./obj before complie.)
+$(shell mkdir $(OBJ_DIR))
+endif
+
 clean	:	
 	$(CLEAN)
-	 
+
 fclean	:	clean
 	$(FCLEAN)
 
@@ -44,9 +49,6 @@ re		:	fclean all
 
 $(OBJ_DIR)/%.o	: $(SRC_DIR)/%.c
 	$(CC) $(FLAG) -c $< -o $@
-
-$(OBJ_DIR)	:
-	mkdir -p $(OBJ_DIR)
 
 $(NAME)	:	$(OBJECTS)
 	$(CC) $(OBJECTS) $(FLAG) -o $(NAME)
