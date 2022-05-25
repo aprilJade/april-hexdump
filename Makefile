@@ -30,8 +30,8 @@ CLEAN	=	rm -rf $(OBJECTS)
 FCLEAN	=	rm -rf $(TARGET)
 
 ifeq ($(OS), Windows_NT)
-	CLEAN = del -Force .\obj\*.o
-	FCLEAN = del -Force .\$(TARGET).exe
+	CLEAN = del .\obj\*.o
+	FCLEAN = del .\$(TARGET).exe
 endif
 
 ifeq (, $(wildcard $(OBJ_DIR)))
