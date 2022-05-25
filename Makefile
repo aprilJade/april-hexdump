@@ -4,7 +4,7 @@ CC		=	gcc
 
 FLAG	=	-Wall -Wextra -Werror
 
-INCLUDE	=	-Iincludes/
+INCLUDE	=	-I includes/
 
 SRC_DIR	=	src
 
@@ -16,20 +16,29 @@ OBJS	=	$(SRCS:.c=.o)
 
 OBJECTS	=	$(patsubst %.o, $(OBJ_DIR)/%.o, $(OBJS))
 
-TARGET	=	$(OBJ_DIR) $(NAME)
+TARGET	=	$(NAME)
 
 debug	:	FLAG += -g
+
 debug	:	$(TARGET)
 
 release	:	$(TARGET)
 
 all		:	debug
 
-clean	:	
-	rm -rf $(OBJECTS)
+CLEAN	=	rm -rf $(OBJECTS)
+FCLEAN	=	rm -rf $(TARGET)
 
+ifeq ($(OS), Windows_NT)
+	CLEAN = del -Force .\obj\*.o
+	FCLEAN = del -Force .\$(TARGET).exe
+endif
+
+clean	:	
+	$(CLEAN)
+	 
 fclean	:	clean
-	rm -rf $(TARGET)
+	$(FCLEAN)
 
 re		:	fclean all
 

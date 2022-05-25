@@ -37,7 +37,6 @@ int main(int argc, char** argv)
 		{0, 0, 0, 0} 
 	};
 	char c;
-	int nOptarg = 0;
 	funcVec* printFunctions = (funcVec*)malloc(sizeof(funcVec));
 	InitFuncVec(printFunctions);
 	
