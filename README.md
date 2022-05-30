@@ -60,4 +60,3 @@ make
 - Implement
   - Option -n \<length>\: Print only length bytes of input
   - Option -s \<offset>\: Skip offset bytes from the beginning
-- Beautify README for readability
